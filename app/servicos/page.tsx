@@ -80,31 +80,36 @@ export default function ServicesPage() {
     {
       id: "eletrica",
       title: "Elétrica",
-      subtitle: "Instalação, modernização e manutenção com foco em segurança e acabamento limpo.",
+      subtitle:
+        "Instalação, modernização e manutenção com foco em segurança e acabamento limpo.",
       featuredSlug: "instalacao-eletrica",
       items: [
         {
           slug: "instalacao-eletrica",
           name: "Instalação Elétrica",
-          shortDesc: "Novas instalações e remodelações. Planeamento, execução e conformidade em obra.",
+          shortDesc:
+            "Novas instalações e remodelações. Planeamento, execução e conformidade em obra.",
           icon: "Zap",
         },
         {
           slug: "quadros-disjuntores",
           name: "Quadros & Disjuntores",
-          shortDesc: "Montagem/atualização de quadros, proteção e organização de circuitos.",
+          shortDesc:
+            "Montagem/atualização de quadros, proteção e organização de circuitos.",
           icon: "PlugZap",
         },
         {
           slug: "iluminacao",
           name: "Iluminação",
-          shortDesc: "Pontos de luz, iluminação embutida e soluções funcionais para cada ambiente.",
+          shortDesc:
+            "Pontos de luz, iluminação embutida e soluções funcionais para cada ambiente.",
           icon: "Lightbulb",
         },
         {
           slug: "manutencao-eletrica",
           name: "Manutenção Elétrica",
-          shortDesc: "Avarias, correções e melhorias — com diagnóstico e intervenção objetiva.",
+          shortDesc:
+            "Avarias, correções e melhorias — com diagnóstico e intervenção objetiva.",
           icon: "Wrench",
         },
       ],
@@ -112,25 +117,29 @@ export default function ServicesPage() {
     {
       id: "hidraulica",
       title: "Hidráulica / Canalização",
-      subtitle: "Redes prediais e reparações com diagnóstico e execução organizada.",
+      subtitle:
+        "Redes prediais e reparações com diagnóstico e execução organizada.",
       featuredSlug: "reparacoes",
       items: [
         {
           slug: "redes-agua-esgotos",
           name: "Redes de Água & Esgotos",
-          shortDesc: "Instalação e ajustes em redes prediais (água fria/quente e esgotos).",
+          shortDesc:
+            "Instalação e ajustes em redes prediais (água fria/quente e esgotos).",
           icon: "Droplets",
         },
         {
           slug: "reparacoes",
           name: "Reparações",
-          shortDesc: "Fugas, entupimentos e substituições com solução definitiva (sem “remendos”).",
+          shortDesc:
+            "Fugas, entupimentos e substituições com solução definitiva (sem “remendos”).",
           icon: "Droplet",
         },
         {
           slug: "manutencao-hidraulica",
           name: "Manutenção",
-          shortDesc: "Manutenção preventiva e correções para reduzir avarias e retrabalho.",
+          shortDesc:
+            "Manutenção preventiva e correções para reduzir avarias e retrabalho.",
           icon: "Wrench",
         },
       ],
@@ -138,19 +147,22 @@ export default function ServicesPage() {
     {
       id: "pladur",
       title: "Pladur & Tetos Falsos",
-      subtitle: "Divisórias, revestimentos e tetos com acabamento alinhado e integração de infraestruturas.",
+      subtitle:
+        "Divisórias, revestimentos e tetos com acabamento alinhado e integração de infraestruturas.",
       featuredSlug: "tetos-falsos",
       items: [
         {
           slug: "pladur",
           name: "Pladur (Divisórias/Revestimentos)",
-          shortDesc: "Divisórias e revestimentos com estrutura correta e acabamento pronto para pintura.",
+          shortDesc:
+            "Divisórias e revestimentos com estrutura correta e acabamento pronto para pintura.",
           icon: "Layers",
         },
         {
           slug: "tetos-falsos",
           name: "Tetos Falsos",
-          shortDesc: "Soluções técnicas e estéticas, com preparação para iluminação embutida.",
+          shortDesc:
+            "Soluções técnicas e estéticas, com preparação para iluminação embutida.",
           icon: "Construction",
         },
       ],
@@ -158,19 +170,22 @@ export default function ServicesPage() {
     {
       id: "pintura",
       title: "Pintura",
-      subtitle: "Preparação correta e acabamento profissional — interior e exterior.",
+      subtitle:
+        "Preparação correta e acabamento profissional — interior e exterior.",
       featuredSlug: "pintura-interior",
       items: [
         {
           slug: "pintura-interior",
           name: "Pintura Interior",
-          shortDesc: "Preparação (massa, lixagem, primário) e acabamento uniforme.",
+          shortDesc:
+            "Preparação (massa, lixagem, primário) e acabamento uniforme.",
           icon: "Paintbrush",
         },
         {
           slug: "pintura-exterior",
           name: "Pintura Exterior",
-          shortDesc: "Tratamento e pintura com foco em durabilidade e resistência.",
+          shortDesc:
+            "Tratamento e pintura com foco em durabilidade e resistência.",
           icon: "Paintbrush",
         },
       ],
@@ -178,25 +193,29 @@ export default function ServicesPage() {
     {
       id: "manutencao",
       title: "Manutenção",
-      subtitle: "Pequenas correções e intervenções rápidas para manter o espaço a funcionar como deve.",
+      subtitle:
+        "Pequenas correções e intervenções rápidas para manter o espaço a funcionar como deve.",
       featuredSlug: "manutencao-eletrica",
       items: [
         {
           slug: "manutencao-eletrica",
           name: "Manutenção Elétrica",
-          shortDesc: "Avarias, correções e melhorias — com diagnóstico e intervenção objetiva.",
+          shortDesc:
+            "Avarias, correções e melhorias — com diagnóstico e intervenção objetiva.",
           icon: "Wrench",
         },
         {
           slug: "manutencao-hidraulica",
           name: "Manutenção Hidráulica",
-          shortDesc: "Manutenção preventiva e correções para reduzir avarias e retrabalho.",
+          shortDesc:
+            "Manutenção preventiva e correções para reduzir avarias e retrabalho.",
           icon: "Wrench",
         },
         {
           slug: "reparacoes",
           name: "Reparações (Canalização)",
-          shortDesc: "Fugas, entupimentos e substituições com solução definitiva (sem “remendos”).",
+          shortDesc:
+            "Fugas, entupimentos e substituições com solução definitiva (sem “remendos”).",
           icon: "Droplet",
         },
       ],
@@ -204,19 +223,22 @@ export default function ServicesPage() {
     {
       id: "pisos",
       title: "Pisos",
-      subtitle: "Aplicação e acabamento com alinhamento, nível e detalhes bem feitos.",
+      subtitle:
+        "Aplicação e acabamento com alinhamento, nível e detalhes bem feitos.",
       featuredSlug: "colocacao-de-piso",
       items: [
         {
           slug: "colocacao-de-piso",
           name: "Colocação de Piso",
-          shortDesc: "Flutuante/vinílico/cerâmico (conforme o projeto) + rodapés e acabamentos.",
+          shortDesc:
+            "Flutuante/vinílico/cerâmico (conforme o projeto) + rodapés e acabamentos.",
           icon: "Grid3X3",
         },
         {
           slug: "preparacao-de-base",
           name: "Preparação de Base",
-          shortDesc: "Regularização, alinhamento e preparação para um acabamento final correto.",
+          shortDesc:
+            "Regularização, alinhamento e preparação para um acabamento final correto.",
           icon: "Ruler",
         },
       ],
@@ -224,25 +246,29 @@ export default function ServicesPage() {
     {
       id: "isolamentos",
       title: "Isolamentos",
-      subtitle: "Conforto térmico e acústico com soluções aplicadas corretamente.",
+      subtitle:
+        "Conforto térmico e acústico com soluções aplicadas corretamente.",
       featuredSlug: "isolamento-termico",
       items: [
         {
           slug: "isolamento-termico",
           name: "Isolamento Térmico",
-          shortDesc: "Reduz perdas de calor e melhora a eficiência do espaço.",
+          shortDesc:
+            "Reduz perdas de calor e melhora a eficiência do espaço.",
           icon: "Thermometer",
         },
         {
           slug: "isolamento-acustico",
           name: "Isolamento Acústico",
-          shortDesc: "Redução de ruído com materiais e montagem adequados (especialmente em pladur).",
+          shortDesc:
+            "Redução de ruído com materiais e montagem adequados (especialmente em pladur).",
           icon: "Volume2",
         },
         {
           slug: "isolamento-geral",
           name: "Isolamento (Geral)",
-          shortDesc: "Avaliação do caso e aplicação da solução mais adequada ao objetivo do cliente.",
+          shortDesc:
+            "Avaliação do caso e aplicação da solução mais adequada ao objetivo do cliente.",
           icon: "Shield",
         },
       ],
@@ -257,24 +283,50 @@ export default function ServicesPage() {
     { id: "manutencao", label: "Manutenção", Icon: Wrench },
   ];
 
-  const groupIconById: Record<string, React.ComponentType<{ className?: string }>> = {
+  // ✅ IMPORTANTE: tipa como className + (opcional) title,
+  // mas NÃO usamos `style` nos ícones para não quebrar o build.
+  const groupIconById: Record<
+    string,
+    React.ComponentType<{ className?: string }>
+  > = {
     eletrica: Zap,
     hidraulica: Droplets,
     pladur: Layers,
     pintura: Paintbrush,
     manutencao: Wrench,
     pisos: ClipboardList,
-    isolamentos: ShieldCheck as any,
+    isolamentos: ShieldCheck as unknown as React.ComponentType<{ className?: string }>,
   };
 
   const ctaCopyByGroup: Record<string, { q: string; btn: string }> = {
-    eletrica: { q: "Precisa de instalação elétrica, correção ou manutenção?", btn: "Pedir orçamento elétrico" },
-    hidraulica: { q: "Fugas, redes de água/esgotos ou reparações?", btn: "Pedir orçamento hidráulico" },
-    pladur: { q: "Divisórias, revestimentos ou tetos falsos?", btn: "Pedir orçamento de pladur" },
-    pintura: { q: "Pintura interior/exterior com preparação correta?", btn: "Pedir orçamento de pintura" },
-    manutencao: { q: "Uma intervenção rápida para resolver e deixar pronto?", btn: "Falar sobre manutenção" },
-    pisos: { q: "Colocação de piso ou preparação de base?", btn: "Pedir orçamento de pisos" },
-    isolamentos: { q: "Conforto térmico ou acústico no espaço?", btn: "Pedir orçamento de isolamento" },
+    eletrica: {
+      q: "Precisa de instalação elétrica, correção ou manutenção?",
+      btn: "Pedir orçamento elétrico",
+    },
+    hidraulica: {
+      q: "Fugas, redes de água/esgotos ou reparações?",
+      btn: "Pedir orçamento hidráulico",
+    },
+    pladur: {
+      q: "Divisórias, revestimentos ou tetos falsos?",
+      btn: "Pedir orçamento de pladur",
+    },
+    pintura: {
+      q: "Pintura interior/exterior com preparação correta?",
+      btn: "Pedir orçamento de pintura",
+    },
+    manutencao: {
+      q: "Uma intervenção rápida para resolver e deixar pronto?",
+      btn: "Falar sobre manutenção",
+    },
+    pisos: {
+      q: "Colocação de piso ou preparação de base?",
+      btn: "Pedir orçamento de pisos",
+    },
+    isolamentos: {
+      q: "Conforto térmico ou acústico no espaço?",
+      btn: "Pedir orçamento de isolamento",
+    },
   };
 
   return (
@@ -295,19 +347,26 @@ export default function ServicesPage() {
           <div className="max-w-3xl">
             <span
               className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-extrabold ring-1"
-              style={{ backgroundColor: `${NAVY}08`, color: NAVY, borderColor: `${NAVY}22` }}
+              style={{
+                backgroundColor: `${NAVY}08`,
+                color: NAVY,
+                borderColor: `${NAVY}22`,
+              }}
             >
               <CheckCircle2 className="h-4 w-4" style={{ color: ORANGE }} />
               Escopo claro • Execução organizada • Prazos realistas
             </span>
 
-            <h1 className="mt-5 text-4xl lg:text-5xl font-extrabold tracking-tight" style={{ color: NAVY }}>
+            <h1
+              className="mt-5 text-4xl lg:text-5xl font-extrabold tracking-tight"
+              style={{ color: NAVY }}
+            >
               Serviços de Construção e Manutenção
             </h1>
 
             <p className="mt-4 text-lg text-slate-600">
-              Elétrica, hidráulica/canalização, pladur, tetos falsos, pintura, pisos e isolamentos — com planeamento e
-              entrega organizada.
+              Elétrica, hidráulica/canalização, pladur, tetos falsos, pintura,
+              pisos e isolamentos — com planeamento e entrega organizada.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">
@@ -319,7 +378,11 @@ export default function ServicesPage() {
                 <span
                   key={idx}
                   className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold ring-1"
-                  style={{ backgroundColor: "white", color: NAVY, borderColor: `${NAVY}18` }}
+                  style={{
+                    backgroundColor: "white",
+                    color: NAVY,
+                    borderColor: `${NAVY}18`,
+                  }}
                 >
                   <x.i className="h-3.5 w-3.5" style={{ color: ORANGE }} />
                   {x.t}
@@ -341,22 +404,36 @@ export default function ServicesPage() {
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-2xl px-5 text-sm font-extrabold ring-1 transition hover:bg-white"
-                style={{ borderColor: `${NAVY}22`, color: NAVY, backgroundColor: "white" }}
+                style={{
+                  borderColor: `${NAVY}22`,
+                  color: NAVY,
+                  backgroundColor: "white",
+                }}
               >
                 <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
                 WhatsApp
               </a>
 
-              <p className="text-sm text-slate-500 sm:ml-auto">{brand.contact.address}</p>
+              <p className="text-sm text-slate-500 sm:ml-auto">
+                {brand.contact.address}
+              </p>
             </div>
 
             {/* Quick nav */}
             <div className="mt-10">
-              <div className="rounded-3xl p-5 sm:p-6 ring-1" style={{ backgroundColor: "white", borderColor: `${NAVY}18` }}>
-                <h2 className="text-base sm:text-lg font-extrabold" style={{ color: NAVY }}>
+              <div
+                className="rounded-3xl p-5 sm:p-6 ring-1"
+                style={{ backgroundColor: "white", borderColor: `${NAVY}18` }}
+              >
+                <h2
+                  className="text-base sm:text-lg font-extrabold"
+                  style={{ color: NAVY }}
+                >
                   O que você precisa agora?
                 </h2>
-                <p className="mt-1 text-sm text-slate-600">Escolha uma categoria e vá direto ao ponto.</p>
+                <p className="mt-1 text-sm text-slate-600">
+                  Escolha uma categoria e vá direto ao ponto.
+                </p>
 
                 {/* mobile horizontal */}
                 <div className="mt-4 -mx-1 sm:hidden">
@@ -366,7 +443,11 @@ export default function ServicesPage() {
                         key={id}
                         href={`#${id}`}
                         className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold ring-1"
-                        style={{ backgroundColor: `${NAVY}04`, color: NAVY, borderColor: `${NAVY}18` }}
+                        style={{
+                          backgroundColor: `${NAVY}04`,
+                          color: NAVY,
+                          borderColor: `${NAVY}18`,
+                        }}
                       >
                         <Icon className="h-4 w-4" style={{ color: ORANGE }} />
                         {label}
@@ -382,7 +463,11 @@ export default function ServicesPage() {
                       key={id}
                       href={`#${id}`}
                       className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold ring-1 transition hover:opacity-95"
-                      style={{ backgroundColor: `${NAVY}04`, color: NAVY, borderColor: `${NAVY}18` }}
+                      style={{
+                        backgroundColor: `${NAVY}04`,
+                        color: NAVY,
+                        borderColor: `${NAVY}18`,
+                      }}
                     >
                       <Icon className="h-4 w-4" style={{ color: ORANGE }} />
                       {label}
@@ -400,7 +485,10 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <h2 className="text-3xl lg:text-4xl font-extrabold" style={{ color: NAVY }}>
+              <h2
+                className="text-3xl lg:text-4xl font-extrabold"
+                style={{ color: NAVY }}
+              >
                 Catálogo de serviços
               </h2>
               <p className="mt-3 text-lg text-slate-600">
@@ -411,7 +499,11 @@ export default function ServicesPage() {
             <Link
               href="/contactos#orcamento"
               className="inline-flex h-10 w-fit items-center justify-center rounded-2xl px-4 text-sm font-extrabold ring-1 transition hover:bg-slate-50"
-              style={{ borderColor: `${NAVY}22`, color: NAVY, backgroundColor: "white" }}
+              style={{
+                borderColor: `${NAVY}22`,
+                color: NAVY,
+                backgroundColor: "white",
+              }}
             >
               Falar com a equipa <ArrowUpRight className="ml-2 h-4 w-4" />
             </Link>
@@ -427,18 +519,30 @@ export default function ServicesPage() {
                   <div className="mb-6 flex items-start gap-3">
                     <div
                       className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl ring-1"
-                      style={{ backgroundColor: `${ORANGE}14`, borderColor: `${ORANGE}22` }}
+                      style={{
+                        backgroundColor: `${ORANGE}14`,
+                        borderColor: `${ORANGE}22`,
+                      }}
                       aria-hidden
                     >
-                      {/* ✅ sem style para não quebrar no build */}
-                      <TitleIcon className="h-5 w-5 text-orange-500" />
+                      {/* ✅ CORREÇÃO DEFINITIVA:
+                          não passamos `style` no ícone (tipado só com className).
+                          a cor vai no wrapper e o ícone herda via currentColor. */}
+                      <div style={{ color: ORANGE }}>
+                        <TitleIcon className="h-5 w-5" />
+                      </div>
                     </div>
 
                     <div className="min-w-0">
-                      <h3 className="text-xl lg:text-2xl font-extrabold" style={{ color: NAVY }}>
+                      <h3
+                        className="text-xl lg:text-2xl font-extrabold"
+                        style={{ color: NAVY }}
+                      >
                         {group.title}
                       </h3>
-                      <p className="mt-1 text-sm lg:text-base text-slate-600 max-w-3xl">{group.subtitle}</p>
+                      <p className="mt-1 text-sm lg:text-base text-slate-600 max-w-3xl">
+                        {group.subtitle}
+                      </p>
                     </div>
                   </div>
 
@@ -462,7 +566,10 @@ export default function ServicesPage() {
                   <div className="mt-8">
                     <div
                       className="rounded-3xl p-5 sm:p-6 ring-1 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
-                      style={{ backgroundColor: `${NAVY}04`, borderColor: `${NAVY}14` }}
+                      style={{
+                        backgroundColor: `${NAVY}04`,
+                        borderColor: `${NAVY}14`,
+                      }}
                     >
                       <div className="min-w-0">
                         <p className="text-sm font-extrabold" style={{ color: NAVY }}>
@@ -479,7 +586,8 @@ export default function ServicesPage() {
                           className="inline-flex h-11 items-center justify-center rounded-2xl px-5 text-sm font-extrabold shadow-sm transition hover:opacity-95"
                           style={{ backgroundColor: NAVY, color: "white" }}
                         >
-                          {cta?.btn ?? "Pedir orçamento"} <ArrowUpRight className="ml-2 h-4 w-4" />
+                          {cta?.btn ?? "Pedir orçamento"}{" "}
+                          <ArrowUpRight className="ml-2 h-4 w-4" />
                         </Link>
 
                         <a
@@ -487,7 +595,11 @@ export default function ServicesPage() {
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex h-11 items-center justify-center rounded-2xl px-5 text-sm font-extrabold ring-1 transition hover:bg-white"
-                          style={{ borderColor: `${NAVY}22`, color: NAVY, backgroundColor: "white" }}
+                          style={{
+                            borderColor: `${NAVY}22`,
+                            color: NAVY,
+                            backgroundColor: "white",
+                          }}
                         >
                           <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
                           WhatsApp
@@ -506,7 +618,10 @@ export default function ServicesPage() {
               className="rounded-3xl p-6 sm:p-10 ring-1 text-center"
               style={{ borderColor: `${NAVY}14`, backgroundColor: `${NAVY}04` }}
             >
-              <h2 className="text-2xl sm:text-4xl font-extrabold" style={{ color: NAVY }}>
+              <h2
+                className="text-2xl sm:text-4xl font-extrabold"
+                style={{ color: NAVY }}
+              >
                 Pronto para começar o seu projeto?
               </h2>
 
@@ -528,7 +643,11 @@ export default function ServicesPage() {
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex h-12 items-center justify-center rounded-2xl px-6 text-sm font-extrabold ring-1 transition hover:bg-white"
-                  style={{ borderColor: `${NAVY}22`, color: NAVY, backgroundColor: "white" }}
+                  style={{
+                    borderColor: `${NAVY}22`,
+                    color: NAVY,
+                    backgroundColor: "white",
+                  }}
                 >
                   <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
                   Falar no WhatsApp

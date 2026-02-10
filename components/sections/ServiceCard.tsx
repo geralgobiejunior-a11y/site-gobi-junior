@@ -1,4 +1,6 @@
+// components/sections/ServiceCard.tsx
 import Link from "next/link";
+import React from "react";
 import * as LucideIcons from "lucide-react";
 import { ArrowUpRight, HelpCircle } from "lucide-react";
 
@@ -23,7 +25,10 @@ export function ServiceCard({
   const NAVY = brand.colors.navy;
   const ORANGE = brand.colors.orange;
 
-  const Icon = (LucideIcons as any)[icon] as React.ComponentType<{ className?: string }>;
+  // ✅ Permite className + style (corrige o erro do build)
+  const Icon = (LucideIcons as any)[icon] as
+    | React.ComponentType<{ className?: string; style?: React.CSSProperties }>
+    | undefined;
 
   return (
     <Card

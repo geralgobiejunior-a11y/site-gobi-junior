@@ -403,9 +403,10 @@ export default function AboutPageClient() {
 
       {/* CTA final */}
       <CTASection
-        title="Quer um orçamento com escopo claro?"
-        subtitle="Envia o pedido — respondemos com clareza de execução, prazos e organização."
-      />
+  title="Quer um orçamento com escopo claro?"
+  description="Envia o pedido — respondemos com clareza de execução, prazos e organização."
+/>
+
     </>
   );
 }
