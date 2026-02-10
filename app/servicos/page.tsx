@@ -1,5 +1,6 @@
 // app/servicos/page.tsx
-import { Metadata } from "next";
+import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -13,6 +14,15 @@ import {
   Layers,
   Paintbrush,
   Wrench,
+  PlugZap,
+  Lightbulb,
+  Droplet,
+  Construction,
+  Grid3X3,
+  Ruler,
+  Thermometer,
+  Volume2,
+  Shield,
 } from "lucide-react";
 
 import { ServiceCard } from "@/components/sections/ServiceCard";
@@ -24,11 +34,31 @@ export const metadata: Metadata = {
     "Serviços de construção e manutenção: elétrica, hidráulica/canalização, pladur, tetos falsos, pintura, colocação de piso e isolamento. Escopo claro, prazos realistas e execução organizada.",
 };
 
+// Mapa de ícones (garante que as strings usadas existem)
+const iconMap = {
+  Zap,
+  PlugZap,
+  Lightbulb,
+  Wrench,
+  Droplets,
+  Droplet,
+  Layers,
+  Construction,
+  Paintbrush,
+  Grid3X3,
+  Ruler,
+  Thermometer,
+  Volume2,
+  Shield,
+} as const;
+
+type IconKey = keyof typeof iconMap;
+
 type ServiceItem = {
   slug: string;
   name: string;
   shortDesc: string;
-  icon: string;
+  icon: IconKey;
 };
 
 type ServiceGroup = {
@@ -400,7 +430,8 @@ export default function ServicesPage() {
                       style={{ backgroundColor: `${ORANGE}14`, borderColor: `${ORANGE}22` }}
                       aria-hidden
                     >
-                      <TitleIcon className="h-5 w-5" style={{ color: ORANGE }} />
+                      {/* ✅ sem style para não quebrar no build */}
+                      <TitleIcon className="h-5 w-5 text-orange-500" />
                     </div>
 
                     <div className="min-w-0">
@@ -469,7 +500,7 @@ export default function ServicesPage() {
             })}
           </div>
 
-          {/* ✅ CTA FINAL CLEAN (substitui o bloco feio antigo) */}
+          {/* CTA FINAL */}
           <div id="cta-final" className="scroll-mt-28 mt-16">
             <div
               className="rounded-3xl p-6 sm:p-10 ring-1 text-center"
