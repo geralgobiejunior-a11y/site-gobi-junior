@@ -7,7 +7,6 @@ import {
   ArrowUpRight,
   CheckCircle2,
   ClipboardList,
-  HardHat,
   Wrench,
   MessagesSquare,
   Shield,
@@ -120,14 +119,9 @@ export default function AboutPageClient() {
   const NAVY = brand.colors.navy;
   const ORANGE = brand.colors.orange;
 
-  // imagens no /public
   const imgColete = "/Design%20sem%20nome%20(22).png";
   const imgCascaisBay = "/obras/CascaisBay.JPG";
 
-  /**
-   * COPY: curto, direto e consistente.
-   * Nada de "valores" genéricos; tudo vira promessa operacional.
-   */
   const bullets = [
     "Execução técnica em obra e manutenção",
     "Escopo claro antes de começar",
@@ -137,9 +131,8 @@ export default function AboutPageClient() {
 
   return (
     <>
-      {/* HERO — foco: o que fazemos + prova visual + CTA */}
+      {/* HERO */}
       <section className="relative overflow-hidden bg-white">
-        {/* fundo premium clean (sem exagero) */}
         <div
           className="absolute inset-0"
           style={{
@@ -158,7 +151,6 @@ export default function AboutPageClient() {
           className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* texto */}
             <div className="lg:col-span-6">
               <motion.div variants={V.in}>
                 <Pill
@@ -182,7 +174,6 @@ export default function AboutPageClient() {
                 previsibilidade. Menos ruído. Mais obra feita.
               </motion.p>
 
-              {/* bullets = foco no que importa */}
               <motion.div variants={V.in} className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {bullets.map((t) => (
                   <div key={t} className="flex items-start gap-3">
@@ -197,7 +188,6 @@ export default function AboutPageClient() {
                 ))}
               </motion.div>
 
-              {/* CTAs */}
               <motion.div variants={V.in} className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
                   <Link
@@ -226,7 +216,6 @@ export default function AboutPageClient() {
               </motion.div>
             </div>
 
-            {/* imagem = prova (sem firula) */}
             <motion.div variants={V.in} className="lg:col-span-6">
               <div className="relative overflow-hidden rounded-3xl ring-1 ring-slate-200/70 shadow-[0_14px_42px_rgba(15,23,42,.12)]">
                 <Image
@@ -239,15 +228,12 @@ export default function AboutPageClient() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent" />
 
-                {/* etiqueta discreta */}
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="rounded-2xl bg-white/85 backdrop-blur px-4 py-3 ring-1 ring-white/60">
                     <p className="text-sm font-extrabold" style={{ color: NAVY }}>
                       Execução organizada em obra
                     </p>
-                    <p className="mt-1 text-xs text-slate-600">
-                      Identidade em campo, EPI, método e acompanhamento.
-                    </p>
+                    <p className="mt-1 text-xs text-slate-600">Identidade em campo, EPI, método e acompanhamento.</p>
                   </div>
                 </div>
               </div>
@@ -256,7 +242,7 @@ export default function AboutPageClient() {
         </motion.div>
       </section>
 
-      {/* O QUE ENTREGAMOS — 3 pilares (simples e forte) */}
+      {/* O QUE ENTREGAMOS */}
       <section className="bg-white py-14 lg:py-18">
         <motion.div
           variants={V.page}
@@ -308,7 +294,7 @@ export default function AboutPageClient() {
         </motion.div>
       </section>
 
-      {/* COMO TRABALHAMOS — 4 passos (sem duplicar conteúdo) */}
+      {/* COMO TRABALHAMOS */}
       <section className="bg-slate-50 py-14 lg:py-18">
         <motion.div
           variants={V.page}
@@ -343,7 +329,7 @@ export default function AboutPageClient() {
         </motion.div>
       </section>
 
-      {/* PROVA VISUAL (1 bloco) — usa Cascais Bay sem inventar números */}
+      {/* PROVA VISUAL */}
       <section className="bg-white py-14 lg:py-18">
         <motion.div
           variants={V.page}
@@ -415,7 +401,7 @@ export default function AboutPageClient() {
         </motion.div>
       </section>
 
-      {/* CTA final (mantém teu componente) */}
+      {/* CTA final */}
       <CTASection
         title="Quer um orçamento com escopo claro?"
         subtitle="Envia o pedido — respondemos com clareza de execução, prazos e organização."
