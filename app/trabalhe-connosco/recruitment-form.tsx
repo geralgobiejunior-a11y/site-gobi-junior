@@ -1,27 +1,40 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo, useState } from "react";
 import {
   Briefcase,
   Users,
   HardHat,
   BadgeCheck,
-  ClipboardList,
   MapPin,
   Phone,
   MessageCircle,
   ArrowUpRight,
   CheckCircle2,
+  Shield,
+  ClipboardList,
+  Clock,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 
 type Contacts = {
   phone: string;
-  whatsapp: string;
+  whatsapp: string; // pode vir com +351, espaços etc
   email: string;
   location: string;
 };
+
+type RoleOption =
+  | "Eletricista"
+  | "Canalizador"
+  | "Pedreiro / Remodelação"
+  | "Pintura"
+  | "Pladur"
+  | "Ajudante de obra"
+  | "Encarregado"
+  | "Outro";
 
 export function RecruitmentForm({
   NAVY,
@@ -32,38 +45,78 @@ export function RecruitmentForm({
   ORANGE: string;
   contacts: Contacts;
 }) {
+  // ====== PERFIS (curto e padronizado) ======
   const roles = [
-    { icon: HardHat, title: "Eletricistas", desc: "Oficial / ajudante • experiência em obra • leitura básica de projetos (valorizado)." },
-    { icon: HardHat, title: "Canalizadores", desc: "Redes prediais • montagem e reparação • autonomia em obra (valorizado)." },
-    { icon: HardHat, title: "Pedreiros / Remodelação", desc: "Alvenaria • acabamentos • organização e ritmo de obra." },
-    { icon: Users, title: "Ajudantes de obra", desc: "Apoio a equipas • limpeza e organização • vontade de aprender." },
-    { icon: Users, title: "Encarregados", desc: "Coordenação • planeamento diário • gestão de equipa e comunicação com obra." },
-    { icon: Briefcase, title: "Outros perfis", desc: "Pintura • pladur • manutenção • multi-serviços. Envie candidatura na mesma." },
-  ];
+    {
+      icon: HardHat,
+      title: "Eletricistas",
+      desc: "Oficial / ajudante • obra • leitura básica de projeto é valorizada.",
+    },
+    {
+      icon: HardHat,
+      title: "Canalizadores",
+      desc: "Redes prediais • montagem / reparação • autonomia é valorizada.",
+    },
+    {
+      icon: HardHat,
+      title: "Pedreiros / Remodelação",
+      desc: "Alvenaria • acabamentos • ritmo e organização em obra.",
+    },
+    {
+      icon: Users,
+      title: "Ajudantes de obra",
+      desc: "Apoio a equipas • limpeza e organização • vontade real de evoluir.",
+    },
+    {
+      icon: ClipboardList,
+      title: "Encarregados",
+      desc: "Coordenação diária • gestão de equipa • interface com obra.",
+    },
+    {
+      icon: Briefcase,
+      title: "Outros perfis",
+      desc: "Pintura • pladur • manutenção • multi-serviços. Candidate-se na mesma.",
+    },
+  ] as const;
 
+  // ====== O QUE OFERECEMOS (sem prometer demais) ======
   const whatWeOffer = [
-    "Contrato de trabalho (conforme perfil e obra)",
-    "Pagamento em dia e alinhamento claro de condições",
-    "Continuidade de trabalho (obras em sequência)",
-    "Organização em obra e comunicação direta",
-    "Foco em segurança e qualidade",
+    "Condições alinhadas com clareza antes de começar",
+    "Pagamento em dia (conforme combinado)",
+    "Organização em obra e orientação clara",
+    "Continuidade para quem entrega bem",
+    "Foco em segurança, qualidade e acabamento",
   ];
 
+  // ====== REQUISITOS (filtro firme) ======
   const requirements = [
-    "Experiência na função (ou vontade real de aprender, no caso de ajudante)",
     "Documentação regularizada para trabalhar em Portugal",
-    "Responsabilidade, pontualidade e espírito de equipa",
+    "Responsabilidade e pontualidade (não negociável)",
+    "Respeito por orientação em obra e trabalho em equipa",
     "Disponibilidade para Lisboa e arredores",
   ];
 
+  // ====== PROCESSO (realista) ======
   const steps = [
-    { step: "01", title: "Envie candidatura", desc: "Preencha o formulário (leva 1 minuto)." },
-    { step: "02", title: "Contacto rápido", desc: "Avaliamos e falamos consigo." },
-    { step: "03", title: "Entrada em obra", desc: "Confirmação e início." },
+    { step: "01", title: "Candidatura", desc: "Preenche o essencial e envia." },
+    { step: "02", title: "Triagem", desc: "Entramos em contacto se o perfil encaixar." },
+    { step: "03", title: "Teste / entrada", desc: "Quando aplicável, teste e início em obra." },
   ];
 
-  const waLink = `https://wa.me/${contacts.whatsapp.replace(/[^\d]/g, "")}`;
+  // ====== LINKS ======
+  const waNumber = useMemo(() => contacts.whatsapp.replace(/[^\d]/g, ""), [contacts.whatsapp]);
+  const waBase = `https://wa.me/${waNumber}`;
   const telLink = `tel:${contacts.phone.replace(/\s/g, "")}`;
+
+  // ====== FORM STATE ======
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState<RoleOption | "">("");
+  const [city, setCity] = useState("");
+  const [experience, setExperience] = useState("");
+  const [docsOk, setDocsOk] = useState(false);
+  const [message, setMessage] = useState("");
 
   function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
     return (
@@ -73,9 +126,41 @@ export function RecruitmentForm({
     );
   }
 
+  // ====== VALIDATION ======
+  const canSend =
+    name.trim().length >= 2 &&
+    phone.trim().length >= 6 &&
+    role !== "" &&
+    city.trim().length >= 2 &&
+    docsOk;
+
+  // ====== WHATSAPP MESSAGE (sem backend, 100% funcional) ======
+  const waText = useMemo(() => {
+    const parts = [
+      "Candidatura — Gobi & Júnior",
+      "",
+      `Nome: ${name || "-"}`,
+      `Telefone: ${phone || "-"}`,
+      `Email: ${email || "-"}`,
+      `Função: ${role || "-"}`,
+      `Cidade: ${city || "-"}`,
+      `Experiência: ${experience || "-"}`,
+      `Docs regulares PT: ${docsOk ? "Sim" : "Não"}`,
+      "",
+      "Mensagem:",
+      message?.trim() ? message.trim() : "-",
+      "",
+      "Anexo CV (se tiver).",
+    ];
+
+    return encodeURIComponent(parts.join("\n"));
+  }, [name, phone, email, role, city, experience, docsOk, message]);
+
+  const waLink = `${waBase}?text=${waText}`;
+
   return (
     <>
-      {/* HERO */}
+      {/* HERO (com filtro + foco) */}
       <section className="relative overflow-hidden">
         <div
           className="absolute inset-0"
@@ -94,20 +179,37 @@ export function RecruitmentForm({
               style={{ backgroundColor: `${NAVY}08`, color: NAVY, borderColor: `${NAVY}22` }}
             >
               <BadgeCheck className="h-4 w-4" style={{ color: ORANGE }} />
-              Recrutamento • Colaboradores • Obra
+              Recrutamento • Obra • Lisboa e arredores
             </span>
 
             <h1 className="mt-5 text-4xl lg:text-5xl font-extrabold tracking-tight" style={{ color: NAVY }}>
               Trabalhe Connosco
             </h1>
 
-            <p className="mt-4 text-lg text-slate-600">
-              Estamos a contratar colaboradores para obras em{" "}
-              <span className="font-semibold" style={{ color: NAVY }}>
-                Lisboa e arredores
-              </span>
-              . Envie a candidatura e falamos consigo rapidamente.
+            <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+              Procuramos profissionais com <span className="font-semibold" style={{ color: NAVY }}>responsabilidade</span>,{" "}
+              <span className="font-semibold" style={{ color: NAVY }}>organização</span> e compromisso com obra real.
+              Se procura apenas “bicos” ou não cumpre horários, esta página não é para si.
             </p>
+
+            <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                "Orientação clara em obra",
+                "Organização e padrão de execução",
+                "Segurança e EPI",
+                "Continuidade para quem entrega",
+              ].map((t) => (
+                <div key={t} className="flex items-start gap-3">
+                  <span
+                    className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-2xl ring-1"
+                    style={{ borderColor: `${ORANGE}35`, backgroundColor: `${ORANGE}12` }}
+                  >
+                    <CheckCircle2 className="h-4 w-4" style={{ color: ORANGE }} />
+                  </span>
+                  <p className="text-sm text-slate-700">{t}</p>
+                </div>
+              ))}
+            </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
@@ -137,7 +239,7 @@ export function RecruitmentForm({
                   <a
                     className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-extrabold ring-1 transition hover:opacity-90"
                     style={{ color: NAVY, borderColor: `${NAVY}18`, backgroundColor: "white" }}
-                    href={waLink}
+                    href={waBase}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -147,6 +249,10 @@ export function RecruitmentForm({
                 </div>
               </div>
             </div>
+
+            <p className="mt-4 text-xs text-slate-500">
+              Nota: analisamos candidaturas e entramos em contacto apenas quando o perfil encaixa nas obras ativas.
+            </p>
           </div>
         </div>
       </section>
@@ -158,17 +264,27 @@ export function RecruitmentForm({
             <h2 className="text-3xl lg:text-4xl font-extrabold" style={{ color: NAVY }}>
               Perfis que procuramos
             </h2>
-            <p className="mt-3 text-lg text-slate-600">Se encaixa em algum perfil, candidate-se.</p>
+            <p className="mt-3 text-lg text-slate-600">
+              Se encaixa em algum perfil, candidate-se. Se não encaixar, envie na mesma — mas com informação objetiva.
+            </p>
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {roles.map((r) => (
-              <Card key={r.title} className="border-white bg-white shadow-sm ring-1 ring-slate-200/70 transition hover:shadow-md">
+              <Card
+                key={r.title}
+                className="border-white bg-white shadow-sm ring-1 ring-slate-200/70 transition hover:shadow-md"
+              >
                 <CardContent className="p-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl ring-1" style={{ borderColor: `${ORANGE}35`, backgroundColor: `${ORANGE}12` }}>
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-2xl ring-1"
+                    style={{ borderColor: `${ORANGE}35`, backgroundColor: `${ORANGE}12` }}
+                  >
                     <r.icon className="h-6 w-6" style={{ color: ORANGE }} />
                   </div>
-                  <h3 className="mt-4 text-lg font-extrabold" style={{ color: NAVY }}>{r.title}</h3>
+                  <h3 className="mt-4 text-lg font-extrabold" style={{ color: NAVY }}>
+                    {r.title}
+                  </h3>
                   <p className="mt-2 text-sm text-slate-600 leading-relaxed">{r.desc}</p>
                 </CardContent>
               </Card>
@@ -177,14 +293,20 @@ export function RecruitmentForm({
         </div>
       </section>
 
-      {/* OFERTA + REQUISITOS + PASSOS */}
+      {/* OFERTA + REQUISITOS + PROCESSO (bem organizado e sem repetição) */}
       <section className="py-14 lg:py-18 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-6">
               <Card className="border-white bg-white shadow-sm ring-1 ring-slate-200/70">
                 <CardContent className="p-7">
-                  <p className="text-sm font-extrabold" style={{ color: NAVY }}>O que oferecemos</p>
+                  <div className="flex items-center gap-2">
+                    <Shield className="h-4 w-4" style={{ color: ORANGE }} />
+                    <p className="text-sm font-extrabold" style={{ color: NAVY }}>
+                      O que oferecemos
+                    </p>
+                  </div>
+
                   <div className="mt-4 grid grid-cols-1 gap-3">
                     {whatWeOffer.map((t) => (
                       <div key={t} className="flex items-start gap-3 rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-200/70">
@@ -193,6 +315,23 @@ export function RecruitmentForm({
                       </div>
                     ))}
                   </div>
+
+                  <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200/70">
+                      <div className="flex items-center gap-2">
+                        <ClipboardList className="h-4 w-4" style={{ color: ORANGE }} />
+                        <p className="text-sm font-extrabold" style={{ color: NAVY }}>Método</p>
+                      </div>
+                      <p className="mt-2 text-sm text-slate-600">Escopo, orientação e execução organizada.</p>
+                    </div>
+                    <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200/70">
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4" style={{ color: ORANGE }} />
+                        <p className="text-sm font-extrabold" style={{ color: NAVY }}>Previsibilidade</p>
+                      </div>
+                      <p className="mt-2 text-sm text-slate-600">Planeamento e prazos alinhados com a obra.</p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -200,7 +339,13 @@ export function RecruitmentForm({
             <div className="lg:col-span-6">
               <Card className="border-white bg-white shadow-sm ring-1 ring-slate-200/70">
                 <CardContent className="p-7">
-                  <p className="text-sm font-extrabold" style={{ color: NAVY }}>Requisitos mínimos</p>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4" style={{ color: ORANGE }} />
+                    <p className="text-sm font-extrabold" style={{ color: NAVY }}>
+                      Requisitos mínimos
+                    </p>
+                  </div>
+
                   <div className="mt-4 grid grid-cols-1 gap-3">
                     {requirements.map((t) => (
                       <div key={t} className="flex items-start gap-3 rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-200/70">
@@ -209,6 +354,10 @@ export function RecruitmentForm({
                       </div>
                     ))}
                   </div>
+
+                  <p className="mt-4 text-xs text-slate-500">
+                    Importante: faltas frequentes, atrasos e indisciplina em obra eliminam qualquer continuidade.
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -216,12 +365,17 @@ export function RecruitmentForm({
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
             {steps.map((x) => (
-              <div key={x.step} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200/70">
+              <div key={x.step} className="rounded-3xl bg-white p-6 ring-1 ring-slate-200/70">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl font-extrabold ring-1" style={{ color: NAVY, borderColor: `${NAVY}18`, backgroundColor: `${NAVY}06` }}>
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-2xl font-extrabold ring-1"
+                    style={{ color: NAVY, borderColor: `${NAVY}18`, backgroundColor: `${NAVY}06` }}
+                  >
                     {x.step}
                   </div>
-                  <p className="text-base font-extrabold" style={{ color: NAVY }}>{x.title}</p>
+                  <p className="text-base font-extrabold" style={{ color: NAVY }}>
+                    {x.title}
+                  </p>
                 </div>
                 <p className="mt-3 text-sm text-slate-600 leading-relaxed">{x.desc}</p>
               </div>
@@ -230,7 +384,7 @@ export function RecruitmentForm({
         </div>
       </section>
 
-      {/* FORM */}
+      {/* FORM (gera mensagem e envia pro WhatsApp com tudo preenchido) */}
       <section id="candidatura" className="py-14 lg:py-18 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -238,34 +392,74 @@ export function RecruitmentForm({
               <h2 className="text-3xl lg:text-4xl font-extrabold" style={{ color: NAVY }}>
                 Enviar candidatura
               </h2>
-              <p className="mt-3 text-lg text-slate-600">
-                Preencha o essencial. Depois, pode enviar no WhatsApp para acelerar.
+              <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+                Preencha o essencial. Ao clicar, abrimos o WhatsApp com a candidatura já pronta.
               </p>
+
+              <div className="mt-6 rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200/70">
+                <p className="text-sm font-extrabold" style={{ color: NAVY }}>Dica</p>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                  Se tiver CV, envie como anexo no WhatsApp. Se não tiver, basta colocar experiência e disponibilidade.
+                </p>
+              </div>
             </div>
 
             <div className="lg:col-span-7">
               <Card className="border-white bg-white shadow-sm ring-1 ring-slate-200/70">
                 <CardContent className="p-6 sm:p-7">
-                  <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <form
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (!canSend) return;
+                      window.open(waLink, "_blank", "noopener,noreferrer");
+                    }}
+                  >
                     <div>
                       <FieldLabel required>Nome</FieldLabel>
-                      <input required className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm" placeholder="Ex.: João Silva" />
+                      <input
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none focus:ring-2"
+                        style={{ borderColor: "rgb(226 232 240)", boxShadow: "none" }}
+                        placeholder="Ex.: João Silva"
+                      />
                     </div>
 
                     <div>
                       <FieldLabel required>Telefone</FieldLabel>
-                      <input required className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm" placeholder="Ex.: +351 9xx xxx xxx" />
+                      <input
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none focus:ring-2"
+                        placeholder="Ex.: +351 9xx xxx xxx"
+                      />
                     </div>
 
                     <div>
                       <FieldLabel>Email</FieldLabel>
-                      <input type="email" className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm" placeholder="Ex.: nome@email.com" />
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none focus:ring-2"
+                        placeholder="Ex.: nome@email.com"
+                      />
                     </div>
 
                     <div>
                       <FieldLabel required>Função</FieldLabel>
-                      <select required defaultValue="" className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm">
-                        <option value="" disabled>Selecione…</option>
+                      <select
+                        required
+                        value={role}
+                        onChange={(e) => setRole(e.target.value as RoleOption)}
+                        className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none focus:ring-2"
+                      >
+                        <option value="" disabled>
+                          Selecione…
+                        </option>
                         <option>Eletricista</option>
                         <option>Canalizador</option>
                         <option>Pedreiro / Remodelação</option>
@@ -277,41 +471,95 @@ export function RecruitmentForm({
                       </select>
                     </div>
 
+                    <div>
+                      <FieldLabel required>Cidade</FieldLabel>
+                      <input
+                        required
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none focus:ring-2"
+                        placeholder="Ex.: Lisboa / Oeiras / Cascais"
+                      />
+                    </div>
+
+                    <div>
+                      <FieldLabel>Experiência (curto)</FieldLabel>
+                      <input
+                        value={experience}
+                        onChange={(e) => setExperience(e.target.value)}
+                        className="mt-2 h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none focus:ring-2"
+                        placeholder="Ex.: 3 anos em obra / 1 ano ajudante"
+                      />
+                    </div>
+
                     <div className="sm:col-span-2">
-                      <FieldLabel>Mensagem</FieldLabel>
-                      <textarea rows={4} className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm" placeholder="Experiência, disponibilidade, se tem carta, etc." />
+                      <label className="mt-1 flex items-start gap-3 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200/70 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={docsOk}
+                          onChange={(e) => setDocsOk(e.target.checked)}
+                          className="mt-1 h-4 w-4"
+                        />
+                        <div>
+                          <p className="text-sm font-extrabold" style={{ color: NAVY }}>
+                            Documentação regularizada para trabalhar em Portugal <span style={{ color: ORANGE }}>*</span>
+                          </p>
+                          <p className="mt-1 text-xs text-slate-600">
+                            Sem isto, não conseguimos avançar para obra.
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <FieldLabel>Mensagem (opcional)</FieldLabel>
+                      <textarea
+                        rows={4}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:ring-2"
+                        placeholder="Disponibilidade, se tem carta, ferramentas, últimas obras, etc."
+                      />
                     </div>
 
                     <div className="sm:col-span-2 mt-2 flex flex-col gap-3 sm:flex-row sm:justify-between">
                       <button
-                        type="button"
-                        className="inline-flex h-12 items-center justify-center rounded-2xl px-5 text-sm font-extrabold shadow-sm transition hover:opacity-95"
-                        style={{ backgroundColor: NAVY, color: "white" }}
-                        onClick={() => alert("Candidatura preparada ✅\n\nAgora envie no WhatsApp para confirmarmos rapidamente.")}
+                        type="submit"
+                        disabled={!canSend}
+                        className="inline-flex h-12 items-center justify-center rounded-2xl px-5 text-sm font-extrabold shadow-sm transition"
+                        style={{
+                          backgroundColor: NAVY,
+                          color: "white",
+                          opacity: canSend ? 1 : 0.55,
+                          cursor: canSend ? "pointer" : "not-allowed",
+                        }}
+                        title={!canSend ? "Preencha Nome, Telefone, Função, Cidade e confirme Documentação." : "Enviar no WhatsApp"}
                       >
-                        Preparar candidatura <ArrowUpRight className="ml-2 h-4 w-4" />
+                        Enviar no WhatsApp <ArrowUpRight className="ml-2 h-4 w-4" />
                       </button>
 
                       <a
                         className="inline-flex h-12 items-center justify-center rounded-2xl px-5 text-sm font-extrabold ring-1"
                         style={{ color: NAVY, borderColor: `${NAVY}18`, backgroundColor: "white" }}
-                        href={waLink}
-                        target="_blank"
-                        rel="noreferrer"
+                        href={telLink}
                       >
-                        Enviar no WhatsApp <MessageCircle className="ml-2 h-4 w-4" style={{ color: ORANGE }} />
+                        Ligar <Phone className="ml-2 h-4 w-4" style={{ color: ORANGE }} />
                       </a>
                     </div>
 
                     <p className="sm:col-span-2 text-xs text-slate-500">
-                      Se tiver CV, pode enviar no WhatsApp.
+                      Ao enviar, o WhatsApp abre com a candidatura já formatada. Se tiver CV, anexe na conversa.
                     </p>
                   </form>
                 </CardContent>
               </Card>
 
               <div className="mt-4 flex flex-wrap gap-2">
-                <a className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-extrabold ring-1" style={{ color: NAVY, borderColor: `${NAVY}18`, backgroundColor: "white" }} href={telLink}>
+                <a
+                  className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-extrabold ring-1"
+                  style={{ color: NAVY, borderColor: `${NAVY}18`, backgroundColor: "white" }}
+                  href={telLink}
+                >
                   <Phone className="h-4 w-4" style={{ color: ORANGE }} /> {contacts.phone}
                 </a>
                 <span className="inline-flex items-center gap-2 text-sm text-slate-600">

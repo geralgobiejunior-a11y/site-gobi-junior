@@ -1,310 +1,425 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import {
-  Award,
-  Users,
-  Shield,
-  TrendingUp,
-  Target,
-  Eye,
-  CheckCircle2,
   ArrowUpRight,
+  CheckCircle2,
   ClipboardList,
-  Clock,
+  HardHat,
+  Wrench,
+  MessagesSquare,
+  Shield,
+  MapPin,
 } from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { CTASection } from "@/components/sections/CTASection";
 import { brand } from "@/lib/brand";
 
-export const metadata: Metadata = {
-  title: "Sobre",
-  description:
-    "Conheça a Gobi & Júnior: soluções técnicas na construção com rigor, qualidade e execução organizada.",
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const V = {
+  page: {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08 } },
+  },
+  in: {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.55, ease } },
+  },
 };
 
-export default function AboutPage() {
+function Pill({
+  icon: Icon,
+  text,
+  accent,
+  navy,
+}: {
+  icon: any;
+  text: string;
+  accent: string;
+  navy: string;
+}) {
+  return (
+    <span
+      className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-extrabold ring-1"
+      style={{ backgroundColor: `${navy}08`, color: navy, borderColor: `${navy}22` }}
+    >
+      <Icon className="h-4 w-4" style={{ color: accent }} />
+      {text}
+    </span>
+  );
+}
+
+function FeatureCard({
+  icon: Icon,
+  title,
+  desc,
+  navy,
+  accent,
+}: {
+  icon: any;
+  title: string;
+  desc: string;
+  navy: string;
+  accent: string;
+}) {
+  return (
+    <div className="rounded-3xl bg-white p-6 ring-1 ring-slate-200/70 shadow-sm transition hover:shadow-md">
+      <div
+        className="flex h-11 w-11 items-center justify-center rounded-2xl ring-1"
+        style={{ borderColor: `${accent}35`, backgroundColor: `${accent}12` }}
+      >
+        <Icon className="h-5 w-5" style={{ color: accent }} />
+      </div>
+
+      <p className="mt-4 text-base font-extrabold" style={{ color: navy }}>
+        {title}
+      </p>
+      <p className="mt-2 text-sm text-slate-600 leading-relaxed">{desc}</p>
+    </div>
+  );
+}
+
+function Step({
+  n,
+  title,
+  desc,
+  navy,
+  accent,
+}: {
+  n: number;
+  title: string;
+  desc: string;
+  navy: string;
+  accent: string;
+}) {
+  return (
+    <div className="relative rounded-3xl bg-white p-6 ring-1 ring-slate-200/70 shadow-sm">
+      <div className="flex items-start gap-4">
+        <div
+          className="flex h-11 w-11 items-center justify-center rounded-2xl ring-1 text-sm font-extrabold"
+          style={{ borderColor: `${accent}35`, backgroundColor: `${accent}12`, color: navy }}
+        >
+          {n}
+        </div>
+
+        <div className="flex-1">
+          <p className="text-base font-extrabold" style={{ color: navy }}>
+            {title}
+          </p>
+          <p className="mt-2 text-sm text-slate-600 leading-relaxed">{desc}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AboutPageClient() {
   const NAVY = brand.colors.navy;
   const ORANGE = brand.colors.orange;
 
-  const values = [
-    {
-      icon: Award,
-      title: "Qualidade",
-      description: "Materiais adequados e execução técnica consistente em todos os projetos.",
-    },
-    {
-      icon: Users,
-      title: "Equipas qualificadas",
-      description: "Técnicos com experiência em obra e processos bem definidos.",
-    },
-    {
-      icon: Shield,
-      title: "Segurança",
-      description: "Boas práticas e coordenação em obra para reduzir riscos e retrabalho.",
-    },
-    {
-      icon: ClipboardList,
-      title: "Escopo claro",
-      description: "Orçamentos detalhados e alinhamento do que será executado.",
-    },
-    {
-      icon: Clock,
-      title: "Prazos realistas",
-      description: "Planeamento e comunicação para cumprir cronogramas com previsibilidade.",
-    },
-    {
-      icon: Target,
-      title: "Foco no cliente",
-      description: "Transparência e compromisso com a entrega final.",
-    },
+  // imagens no /public
+  const imgColete = "/Design%20sem%20nome%20(22).png";
+  const imgCascaisBay = "/obras/CascaisBay.JPG";
+
+  /**
+   * COPY: curto, direto e consistente.
+   * Nada de "valores" genéricos; tudo vira promessa operacional.
+   */
+  const bullets = [
+    "Execução técnica em obra e manutenção",
+    "Escopo claro antes de começar",
+    "Coordenação com especialidades e fiscalização",
+    "Entrega com qualidade e acabamento",
   ];
 
   return (
     <>
-      {/* HERO premium */}
-      <section className="relative overflow-hidden">
+      {/* HERO — foco: o que fazemos + prova visual + CTA */}
+      <section className="relative overflow-hidden bg-white">
+        {/* fundo premium clean (sem exagero) */}
         <div
           className="absolute inset-0"
           style={{
             background: `
-              radial-gradient(900px 520px at 15% 0%, ${ORANGE}16 0%, transparent 58%),
-              radial-gradient(900px 520px at 70% 10%, ${NAVY}20 0%, transparent 60%),
+              radial-gradient(1000px 600px at 10% 0%, ${ORANGE}18 0%, transparent 60%),
+              radial-gradient(1000px 600px at 85% 10%, ${NAVY}18 0%, transparent 62%),
               linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)
             `,
           }}
         />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-          <div className="max-w-3xl">
-            <span
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-extrabold ring-1"
-              style={{
-                backgroundColor: `${NAVY}08`,
-                color: NAVY,
-                borderColor: `${NAVY}22`,
-              }}
-            >
-              <CheckCircle2 className="h-4 w-4" style={{ color: ORANGE }} />
-              Rigor técnico • Execução organizada • Relações de confiança
-            </span>
 
-            <h1
-              className="mt-5 text-4xl lg:text-5xl font-extrabold tracking-tight"
-              style={{ color: NAVY }}
-            >
-              Sobre a {brand.name}
-            </h1>
+        <motion.div
+          variants={V.page}
+          initial="hidden"
+          animate="show"
+          className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* texto */}
+            <div className="lg:col-span-6">
+              <motion.div variants={V.in}>
+                <Pill
+                  icon={CheckCircle2}
+                  text="Execução técnica • Organização em obra • Clareza de escopo"
+                  accent={ORANGE}
+                  navy={NAVY}
+                />
+              </motion.div>
 
-            <p className="mt-4 text-lg text-slate-600">
-              Somos uma equipa orientada a obra: escopo bem definido, coordenação com as especialidades e entrega com
-              qualidade.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                href="/contactos#orcamento"
-                className="inline-flex h-12 items-center justify-center rounded-2xl px-5 text-sm font-extrabold shadow-sm transition hover:opacity-95"
-                style={{ backgroundColor: NAVY, color: "white" }}
+              <motion.h1
+                variants={V.in}
+                className="mt-5 text-4xl lg:text-5xl font-extrabold tracking-tight"
+                style={{ color: NAVY }}
               >
-                Falar com a equipa <ArrowUpRight className="ml-2 h-4 w-4" />
-              </Link>
+                Sobre a {brand.name}
+              </motion.h1>
 
-              <p className="text-sm text-slate-500 sm:ml-auto">{brand.contact.address}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+              <motion.p variants={V.in} className="mt-4 text-lg text-slate-600 leading-relaxed">
+                Somos uma equipa de construção orientada a execução: planeamos, coordenamos e entregamos com
+                previsibilidade. Menos ruído. Mais obra feita.
+              </motion.p>
 
-      {/* QUEM SOMOS + FACTS */}
-      <section className="py-14 lg:py-18 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            <div className="lg:col-span-7">
-              <h2 className="text-3xl lg:text-4xl font-extrabold" style={{ color: NAVY }}>
-                Quem somos
-              </h2>
-
-              <div className="mt-5 space-y-4 text-lg text-slate-700 leading-relaxed">
-                <p>
-                  A <strong>{brand.name}</strong> atua em serviços técnicos na construção, com foco em execução
-                  organizada e qualidade.
-                </p>
-
-                <p>
-                  Trabalhamos com <strong>subempreitada técnica</strong> e também com clientes residenciais e
-                  comerciais, integrando-nos de forma eficiente em obra — com planeamento, coordenação e entrega.
-                </p>
-
-                <p>
-                  A nossa abordagem prioriza: <strong>escopo claro</strong>, <strong>cumprimento de prazos</strong> e{" "}
-                  <strong>acabamento</strong>.
-                </p>
-              </div>
-            </div>
-
-            {/* bloco premium (substitui o “GJ” placeholder) */}
-            <div className="lg:col-span-5">
-              <Card className="overflow-hidden border-white bg-white shadow-sm ring-1 ring-slate-200/70">
-                <CardContent className="p-6">
-                  <p className="text-sm font-extrabold" style={{ color: NAVY }}>
-                    Em resumo
-                  </p>
-
-                  <div className="mt-4 space-y-3">
-                    {[
-                      "Execução organizada e acompanhamento em obra",
-                      "Orçamento detalhado e alinhamento de escopo",
-                      "Coordenação com outras especialidades",
-                      "Foco em qualidade e acabamento",
-                    ].map((t) => (
-                      <div key={t} className="flex items-start gap-3">
-                        <span
-                          className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-2xl ring-1"
-                          style={{ borderColor: `${ORANGE}35`, backgroundColor: `${ORANGE}12` }}
-                        >
-                          <CheckCircle2 className="h-4 w-4" style={{ color: ORANGE }} />
-                        </span>
-                        <p className="text-sm text-slate-700">{t}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 grid grid-cols-2 gap-3">
-                    <div className="rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-200/70">
-                      <p className="text-[11px] text-slate-500">Atuação</p>
-                      <p className="text-sm font-extrabold" style={{ color: NAVY }}>
-                        {brand.contact.address || "Lisboa e arredores"}
-                      </p>
-                    </div>
-                    <div className="rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-200/70">
-                      <p className="text-[11px] text-slate-500">Modelo</p>
-                      <p className="text-sm font-extrabold" style={{ color: NAVY }}>
-                        Obra & Manutenção
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-5">
-                    <Link
-                      href="/servicos"
-                      className="inline-flex items-center text-sm font-extrabold transition hover:opacity-90"
-                      style={{ color: NAVY }}
+              {/* bullets = foco no que importa */}
+              <motion.div variants={V.in} className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {bullets.map((t) => (
+                  <div key={t} className="flex items-start gap-3">
+                    <span
+                      className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-2xl ring-1"
+                      style={{ borderColor: `${ORANGE}35`, backgroundColor: `${ORANGE}12` }}
                     >
-                      Ver serviços <ArrowUpRight className="ml-2 h-4 w-4" style={{ color: ORANGE }} />
-                    </Link>
+                      <CheckCircle2 className="h-4 w-4" style={{ color: ORANGE }} />
+                    </span>
+                    <p className="text-sm text-slate-700">{t}</p>
                   </div>
-                </CardContent>
-              </Card>
+                ))}
+              </motion.div>
+
+              {/* CTAs */}
+              <motion.div variants={V.in} className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                  <Link
+                    href="/contactos#orcamento"
+                    className="inline-flex h-12 items-center justify-center rounded-2xl px-6 text-sm font-extrabold shadow-sm transition hover:opacity-95"
+                    style={{ backgroundColor: NAVY, color: "white" }}
+                  >
+                    Pedir orçamento <ArrowUpRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </motion.div>
+
+                <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                  <Link
+                    href="/servicos"
+                    className="inline-flex h-12 items-center justify-center rounded-2xl px-6 text-sm font-extrabold ring-1 bg-white/70 backdrop-blur transition"
+                    style={{ color: NAVY, borderColor: `${NAVY}22` }}
+                  >
+                    Ver serviços <ArrowUpRight className="ml-2 h-4 w-4" style={{ color: ORANGE }} />
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              <motion.div variants={V.in} className="mt-5 inline-flex items-center gap-2 text-sm text-slate-500">
+                <MapPin className="h-4 w-4" style={{ color: ORANGE }} />
+                {brand.contact.address || "Lisboa e arredores"}
+              </motion.div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* POSICIONAMENTO (mais curto e com estrutura) */}
-      <section className="py-14 lg:py-18 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl lg:text-4xl font-extrabold" style={{ color: NAVY }}>
-              Posicionamento
-            </h2>
-            <p className="mt-4 text-lg text-slate-700 leading-relaxed">
-              Evoluímos de forma estruturada: consolidamos os serviços atuais com qualidade e processos, e expandimos as
-              capacidades mantendo rigor e previsibilidade em obra.
-            </p>
-          </div>
+            {/* imagem = prova (sem firula) */}
+            <motion.div variants={V.in} className="lg:col-span-6">
+              <div className="relative overflow-hidden rounded-3xl ring-1 ring-slate-200/70 shadow-[0_14px_42px_rgba(15,23,42,.12)]">
+                <Image
+                  src={imgColete}
+                  alt="Gobi & Júnior em obra — colete com logo"
+                  width={1400}
+                  height={1000}
+                  priority
+                  className="h-[270px] sm:h-[340px] lg:h-[440px] w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent" />
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: Shield, t: "Rigor e segurança", d: "Boas práticas e coordenação para reduzir risco e retrabalho." },
-              { icon: TrendingUp, t: "Crescimento estruturado", d: "Processos repetíveis e equipas em expansão." },
-              { icon: Eye, t: "Visão de longo prazo", d: "Parcerias duradouras baseadas em entrega e confiança." },
-            ].map((x) => (
-              <div key={x.t} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200/70">
-                <div
-                  className="flex h-11 w-11 items-center justify-center rounded-2xl ring-1"
-                  style={{ borderColor: `${ORANGE}35`, backgroundColor: `${ORANGE}12` }}
-                >
-                  <x.icon className="h-5 w-5" style={{ color: ORANGE }} />
+                {/* etiqueta discreta */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="rounded-2xl bg-white/85 backdrop-blur px-4 py-3 ring-1 ring-white/60">
+                    <p className="text-sm font-extrabold" style={{ color: NAVY }}>
+                      Execução organizada em obra
+                    </p>
+                    <p className="mt-1 text-xs text-slate-600">
+                      Identidade em campo, EPI, método e acompanhamento.
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-4 text-base font-extrabold" style={{ color: NAVY }}>
-                  {x.t}
-                </p>
-                <p className="mt-2 text-sm text-slate-600 leading-relaxed">{x.d}</p>
               </div>
-            ))}
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* VALORES */}
-      <section className="py-14 lg:py-18 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl lg:text-4xl font-extrabold" style={{ color: NAVY }}>
-              Os nossos valores
+      {/* O QUE ENTREGAMOS — 3 pilares (simples e forte) */}
+      <section className="bg-white py-14 lg:py-18">
+        <motion.div
+          variants={V.page}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        >
+          <motion.div variants={V.in} className="max-w-3xl">
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight" style={{ color: NAVY }}>
+              O que entregamos
             </h2>
-            <p className="mt-3 text-lg text-slate-600">
-              Princípios práticos que orientam a forma como trabalhamos em obra.
+            <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+              Não prometemos “perfeição”. Prometemos organização, clareza e execução bem feita.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {values.map((v) => (
-              <Card
-                key={v.title}
-                className="border-white bg-white shadow-sm ring-1 ring-slate-200/70 transition hover:shadow-md"
-              >
-                <CardContent className="p-6">
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-2xl ring-1"
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <motion.div variants={V.in}>
+              <FeatureCard
+                icon={ClipboardList}
+                title="Escopo claro"
+                desc="Alinhamos o executável antes de começar — para evitar surpresas, extras e retrabalho."
+                navy={NAVY}
+                accent={ORANGE}
+              />
+            </motion.div>
+
+            <motion.div variants={V.in}>
+              <FeatureCard
+                icon={Wrench}
+                title="Execução técnica"
+                desc="Equipa orientada a obra, com método e padrão de acabamento."
+                navy={NAVY}
+                accent={ORANGE}
+              />
+            </motion.div>
+
+            <motion.div variants={V.in}>
+              <FeatureCard
+                icon={MessagesSquare}
+                title="Comunicação objetiva"
+                desc="Atualizações claras e coordenação com outras especialidades e fiscalização."
+                navy={NAVY}
+                accent={ORANGE}
+              />
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* COMO TRABALHAMOS — 4 passos (sem duplicar conteúdo) */}
+      <section className="bg-slate-50 py-14 lg:py-18">
+        <motion.div
+          variants={V.page}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        >
+          <motion.div variants={V.in} className="max-w-3xl">
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight" style={{ color: NAVY }}>
+              Como trabalhamos
+            </h2>
+            <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+              Processo simples para garantir previsibilidade — do orçamento à entrega.
+            </p>
+          </motion.div>
+
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <motion.div variants={V.in}>
+              <Step n={1} title="Levantamento & proposta" desc="Entendemos o pedido e entregamos orçamento claro." navy={NAVY} accent={ORANGE} />
+            </motion.div>
+            <motion.div variants={V.in}>
+              <Step n={2} title="Planeamento" desc="Alinhamos datas, acessos, materiais e interface com a obra." navy={NAVY} accent={ORANGE} />
+            </motion.div>
+            <motion.div variants={V.in}>
+              <Step n={3} title="Execução" desc="Equipa em campo com organização, método e foco em qualidade." navy={NAVY} accent={ORANGE} />
+            </motion.div>
+            <motion.div variants={V.in}>
+              <Step n={4} title="Fecho & validação" desc="Revisão final e entrega com padrão de acabamento." navy={NAVY} accent={ORANGE} />
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* PROVA VISUAL (1 bloco) — usa Cascais Bay sem inventar números */}
+      <section className="bg-white py-14 lg:py-18">
+        <motion.div
+          variants={V.page}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        >
+          <motion.div variants={V.in} className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-6">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight" style={{ color: NAVY }}>
+                Obra real, sem conversa
+              </h2>
+              <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+                Preferimos mostrar contexto de obra do que encher a página com promessa vaga.
+              </p>
+
+              <div className="mt-6 rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200/70">
+                <div className="flex items-start gap-3">
+                  <span
+                    className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl ring-1"
                     style={{ borderColor: `${ORANGE}35`, backgroundColor: `${ORANGE}12` }}
                   >
-                    <v.icon className="h-6 w-6" style={{ color: ORANGE }} />
+                    <Shield className="h-5 w-5" style={{ color: ORANGE }} />
+                  </span>
+                  <div>
+                    <p className="text-sm font-extrabold" style={{ color: NAVY }}>
+                      Padrão de execução
+                    </p>
+                    <p className="mt-1 text-sm text-slate-600 leading-relaxed">
+                      EPI, organização e coordenação para reduzir risco, paragens e retrabalho.
+                    </p>
                   </div>
+                </div>
 
-                  <h3 className="mt-4 text-lg font-extrabold" style={{ color: NAVY }}>
-                    {v.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">{v.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+                <div className="mt-5 flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/obras"
+                    className="inline-flex h-11 items-center justify-center rounded-2xl px-5 text-sm font-extrabold ring-1 bg-white transition hover:shadow-sm"
+                    style={{ color: NAVY, borderColor: `${NAVY}22` }}
+                  >
+                    Ver obras <ArrowUpRight className="ml-2 h-4 w-4" style={{ color: ORANGE }} />
+                  </Link>
+
+                  <Link
+                    href="/contactos#orcamento"
+                    className="inline-flex h-11 items-center justify-center rounded-2xl px-5 text-sm font-extrabold shadow-sm transition hover:opacity-95"
+                    style={{ backgroundColor: NAVY, color: "white" }}
+                  >
+                    Pedir orçamento <ArrowUpRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-6">
+              <div className="relative overflow-hidden rounded-3xl ring-1 ring-slate-200/70 shadow-[0_14px_42px_rgba(15,23,42,.12)]">
+                <Image
+                  src={imgCascaisBay}
+                  alt="Cascais Bay — contexto real de obra"
+                  width={1600}
+                  height={900}
+                  className="h-[260px] sm:h-[340px] lg:h-[420px] w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-transparent" />
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* MISSÃO + VISÃO (em cards premium, não faixa azul chapada) */}
-      <section className="py-14 lg:py-18 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Card className="border-white bg-white shadow-sm ring-1 ring-slate-200/70">
-              <CardContent className="p-7">
-                <p className="text-sm font-extrabold" style={{ color: NAVY }}>
-                  Missão
-                </p>
-                <p className="mt-3 text-lg text-slate-700 leading-relaxed">
-                  Fornecer soluções técnicas de excelência na construção, com rigor, qualidade e cumprimento de prazos,
-                  construindo relações de confiança com clientes e parceiros.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-white bg-white shadow-sm ring-1 ring-slate-200/70">
-              <CardContent className="p-7">
-                <p className="text-sm font-extrabold" style={{ color: NAVY }}>
-                  Visão
-                </p>
-                <p className="mt-3 text-lg text-slate-700 leading-relaxed">
-                  Ser reconhecidos como referência em soluções técnicas especializadas, expandindo capacidades de forma
-                  estruturada e sustentável, mantendo padrões elevados de qualidade e profissionalismo.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <CTASection />
+      {/* CTA final (mantém teu componente) */}
+      <CTASection
+        title="Quer um orçamento com escopo claro?"
+        subtitle="Envia o pedido — respondemos com clareza de execução, prazos e organização."
+      />
     </>
   );
 }

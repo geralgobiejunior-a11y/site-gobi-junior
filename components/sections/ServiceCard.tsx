@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { ArrowUpRight, HelpCircle } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { brand } from "@/lib/brand";
@@ -8,8 +9,8 @@ export type ServiceCardProps = {
   name: string;
   description: string;
   href: string;
-  icon: string; // (mantive string porque teu data usa string)
-  featured?: boolean; // ✅ agora existe
+  icon: string;
+  featured?: boolean;
 };
 
 export function ServiceCard({
@@ -22,89 +23,84 @@ export function ServiceCard({
   const NAVY = brand.colors.navy;
   const ORANGE = brand.colors.orange;
 
-  return (
-    <Link href={href} className="group block">
-      <Card
-        className={[
-          "relative overflow-hidden rounded-2xl bg-white transition-all",
-          "ring-1 ring-slate-200/70 hover:-translate-y-1 hover:shadow-xl",
-          featured ? "shadow-md" : "shadow-sm",
-        ].join(" ")}
-      >
-        {/* destaque top line (só se featured) */}
-        {featured && (
-          <div
-            aria-hidden
-            className="absolute left-0 right-0 top-0 h-[3px]"
-            style={{
-              background: `linear-gradient(90deg, ${ORANGE}, ${ORANGE}AA, ${NAVY}AA)`,
-            }}
-          />
-        )}
+  const Icon = (LucideIcons as any)[icon] as React.ComponentType<{ className?: string }>;
 
-        {/* glow sutil */}
+  return (
+    <Card
+      className={[
+        "relative overflow-hidden rounded-3xl bg-white transition-all",
+        "ring-1 ring-slate-200/70 hover:-translate-y-1 hover:shadow-xl",
+      ].join(" ")}
+      style={{
+        borderColor: featured ? `${ORANGE}55` : `${NAVY}12`,
+      }}
+    >
+      {/* ✅ highlight arredondado no topo (featured) */}
+      {featured && (
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 right-[-120px] h-[260px] w-[260px] rounded-full blur-3xl opacity-40"
-          style={{
-            background: featured
-              ? `radial-gradient(circle, ${ORANGE}33, transparent 60%)`
-              : `radial-gradient(circle, ${NAVY}22, transparent 60%)`,
-          }}
+          className="absolute inset-x-0 top-0 h-[3px] rounded-t-3xl"
+          style={{ background: `linear-gradient(90deg, ${ORANGE}, ${ORANGE}AA, ${NAVY}AA)` }}
         />
+      )}
 
-        <CardContent className="p-6">
-          {/* header */}
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <h3
-                className="text-lg font-extrabold leading-snug"
-                style={{ color: NAVY }}
-              >
-                <span
-                  className="decoration-2 underline-offset-4 group-hover:underline"
-                  style={{ textDecorationColor: `${ORANGE}AA` }}
-                >
-                  {name}
-                </span>
-              </h3>
-
-              <p className="mt-2 text-sm text-slate-600">{description}</p>
-            </div>
-
-            {/* icon pill */}
-            <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ring-1"
-              style={{
-                backgroundColor: featured ? `${ORANGE}18` : `${NAVY}10`,
-                borderColor: featured ? `${ORANGE}2A` : `${NAVY}22`,
-                color: featured ? ORANGE : NAVY,
-              }}
-              aria-hidden
+      <CardContent className="p-6">
+        {/* ✅ badge dentro do layout (não flutua) */}
+        {featured && (
+          <div className="mb-3">
+            <span
+              className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-extrabold ring-1"
+              style={{ backgroundColor: `${NAVY}10`, color: NAVY, borderColor: `${NAVY}18` }}
             >
-              <span className="text-base font-extrabold">{icon}</span>
-            </div>
+              Mais solicitado
+            </span>
+          </div>
+        )}
+
+        {/* header */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="text-lg font-extrabold leading-snug" style={{ color: NAVY }}>
+              {name}
+            </h3>
+            <p className="mt-2 text-sm text-slate-600 leading-relaxed">{description}</p>
           </div>
 
-          {/* footer */}
-          <div className="mt-5 flex items-center justify-between">
-            <p className="text-xs text-slate-500">Ver detalhes do serviço</p>
-
-            <div
-              className="inline-flex items-center gap-2 text-sm font-extrabold"
-              style={{ color: NAVY }}
-            >
-              <span className="transition-transform group-hover:translate-x-1">
-                Ver serviço
-              </span>
-              <ArrowUpRight
-                className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                style={{ color: ORANGE }}
-              />
-            </div>
+          {/* icon pill */}
+          <div
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ring-1"
+            style={{
+              backgroundColor: `${NAVY}06`,
+              borderColor: `${NAVY}14`,
+            }}
+            aria-hidden
+          >
+            {Icon ? (
+              <Icon className="h-6 w-6" style={{ color: ORANGE }} />
+            ) : (
+              <HelpCircle className="h-6 w-6" style={{ color: ORANGE }} />
+            )}
           </div>
-        </CardContent>
-      </Card>
-    </Link>
+        </div>
+
+        {/* actions */}
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <Link
+            href={href}
+            className="text-xs font-bold underline underline-offset-4 text-slate-500 hover:text-slate-700"
+          >
+            Ver detalhes
+          </Link>
+
+          <Link
+            href="/contactos#orcamento"
+            className="inline-flex h-10 items-center justify-center rounded-2xl px-4 text-sm font-extrabold ring-1 transition hover:bg-slate-50"
+            style={{ borderColor: `${NAVY}18`, color: NAVY, backgroundColor: "white" }}
+          >
+            Pedir orçamento <ArrowUpRight className="ml-2 h-4 w-4" style={{ color: ORANGE }} />
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
