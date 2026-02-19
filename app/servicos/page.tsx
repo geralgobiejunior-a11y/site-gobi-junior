@@ -506,7 +506,6 @@ export default function ServicesPage() {
 
 
                                 <Link
-                                  href={`/servicos/${service.slug}`}
                                   className="inline-flex items-center text-sm font-extrabold"
                                   style={{ color: NAVY }}
                                 >
@@ -596,7 +595,7 @@ export default function ServicesPage() {
                             key={service.slug}
                             name={service.name}
                             description={service.shortDesc}
-                            href={`/servicos/${service.slug}`}
+                           
                             icon={service.icon}
                             featured={!!isFeatured}
                           />
