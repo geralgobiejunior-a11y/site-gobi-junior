@@ -19,7 +19,6 @@ const BRAND_NAVY = brand.colors.navy;
 const BRAND_NAVY_DARK = brand.colors.navyDark;
 const BRAND_ORANGE = brand.colors.orange;
 
-// helper simples: rgba sem depender de lib
 function rgba(hex: string, alpha: number) {
   const h = hex.replace('#', '').trim();
   const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h;
@@ -30,24 +29,31 @@ function rgba(hex: string, alpha: number) {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.gobijunior.pt'),
+
   title: {
     default: `${brand.name} | ${brand.tagline}`,
     template: `%s | ${brand.name}`,
   },
+
   description:
-    'Especialistas em instalações elétricas, pladur, tetos falsos e pintura. Soluções técnicas na construção com rigor, qualidade e cumprimento de prazos em Lisboa e arredores.',
+    'Construções e serviços técnicos em Lisboa e arredores. Instalações elétricas, pladur, tetos falsos e pintura com rigor, qualidade e cumprimento de prazos.',
+
+  alternates: {
+    canonical: '/',
+  },
+
   keywords: [
+    'construção Lisboa',
     'instalações elétricas',
-    'eletricista',
-    'quadros elétricos',
+    'eletricista Lisboa',
     'pladur',
     'tetos falsos',
     'pintura',
     'remodelação',
-    'construção',
-    'Lisboa',
-    'obras',
+    'obras comerciais',
   ],
+
   authors: [{ name: brand.name }],
   applicationName: brand.name,
   category: 'business',
@@ -67,36 +73,55 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'pt_PT',
+    url: 'https://www.gobijunior.pt',
     siteName: brand.name,
     title: `${brand.name} | ${brand.tagline}`,
     description:
-      'Instalações elétricas, pladur, tetos falsos e pintura — execução com rigor, qualidade e cumprimento.',
+      'Execução técnica em elétrica, pladur e pintura com rigor e cumprimento de prazos.',
+    images: [
+      {
+        url: '/og.jpg',
+        width: 1200,
+        height: 630,
+        alt: brand.name,
+      },
+    ],
   },
 
   twitter: {
     card: 'summary_large_image',
     title: `${brand.name} | ${brand.tagline}`,
     description:
-      'Soluções técnicas na construção: elétrica, pladur, tetos falsos e pintura, com rigor e cumprimento.',
+      'Soluções técnicas na construção com rigor, qualidade e cumprimento.',
+    images: ['/og.jpg'],
   },
 
   icons: {
-    icon: [{ url: '/favicon.ico' }, { url: '/icon.png', type: 'image/png' }],
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
     apple: [{ url: '/apple-touch-icon.png' }],
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: brand.name,
+    url: 'https://www.gobijunior.pt',
+    logo: 'https://www.gobijunior.pt/logo.png',
+    image: 'https://www.gobijunior.pt/og.jpg',
+    areaServed: 'Lisboa e arredores',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'PT',
+    },
+  };
+
   return (
     <html lang="pt" suppressHydrationWarning className="scroll-smooth">
-      <head>
-        {/* Viewport compatível com qualquer versão do Next */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        {/* Theme color (light/dark) */}
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content={BRAND_NAVY} />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content={BRAND_NAVY_DARK} />
-      </head>
-
       <body
         style={
           {
@@ -111,6 +136,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           'selection:bg-[color:var(--brand-orange)] selection:text-slate-950',
         ].join(' ')}
       >
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+
         <a
           href="#conteudo"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-slate-900 focus:shadow-lg"
@@ -137,7 +168,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
 
           <Footer />
-
           <WhatsAppButton />
           <Toaster />
         </div>
