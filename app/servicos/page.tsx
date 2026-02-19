@@ -27,6 +27,12 @@ import {
 
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { brand } from "@/lib/brand";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const metadata: Metadata = {
   title: "Serviços",
@@ -275,28 +281,17 @@ export default function ServicesPage() {
     },
   ];
 
-  const quickNav = [
-    { id: "eletrica", label: "Elétrica", Icon: Zap },
-    { id: "hidraulica", label: "Hidráulica", Icon: Droplets },
-    { id: "pladur", label: "Pladur", Icon: Layers },
-    { id: "pintura", label: "Pintura", Icon: Paintbrush },
-    { id: "manutencao", label: "Manutenção", Icon: Wrench },
-  ];
-
-  // ✅ IMPORTANTE: tipa como className + (opcional) title,
-  // mas NÃO usamos `style` nos ícones para não quebrar o build.
-  const groupIconById: Record<
-    string,
-    React.ComponentType<{ className?: string }>
-  > = {
-    eletrica: Zap,
-    hidraulica: Droplets,
-    pladur: Layers,
-    pintura: Paintbrush,
-    manutencao: Wrench,
-    pisos: ClipboardList,
-    isolamentos: ShieldCheck as unknown as React.ComponentType<{ className?: string }>,
-  };
+  const groupIconById: Record<string, React.ComponentType<{ className?: string }>> =
+    {
+      eletrica: Zap,
+      hidraulica: Droplets,
+      pladur: Layers,
+      pintura: Paintbrush,
+      manutencao: Wrench,
+      pisos: ClipboardList,
+      isolamentos:
+        ShieldCheck as unknown as React.ComponentType<{ className?: string }>,
+    };
 
   const ctaCopyByGroup: Record<string, { q: string; btn: string }> = {
     eletrica: {
@@ -365,8 +360,7 @@ export default function ServicesPage() {
             </h1>
 
             <p className="mt-4 text-lg text-slate-600">
-              Elétrica, hidráulica/canalização, pladur, tetos falsos, pintura,
-              pisos e isolamentos — com planeamento e entrega organizada.
+              No telemóvel, tudo fica por categoria — abra apenas o que precisa.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">
@@ -410,7 +404,10 @@ export default function ServicesPage() {
                   backgroundColor: "white",
                 }}
               >
-                <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
+                <MessageCircle
+                  className="mr-2 h-4 w-4"
+                  style={{ color: ORANGE }}
+                />
                 WhatsApp
               </a>
 
@@ -418,72 +415,14 @@ export default function ServicesPage() {
                 {brand.contact.address}
               </p>
             </div>
-
-            {/* Quick nav */}
-            <div className="mt-10">
-              <div
-                className="rounded-3xl p-5 sm:p-6 ring-1"
-                style={{ backgroundColor: "white", borderColor: `${NAVY}18` }}
-              >
-                <h2
-                  className="text-base sm:text-lg font-extrabold"
-                  style={{ color: NAVY }}
-                >
-                  O que você precisa agora?
-                </h2>
-                <p className="mt-1 text-sm text-slate-600">
-                  Escolha uma categoria e vá direto ao ponto.
-                </p>
-
-                {/* mobile horizontal */}
-                <div className="mt-4 -mx-1 sm:hidden">
-                  <div className="flex gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    {quickNav.map(({ id, label, Icon }) => (
-                      <a
-                        key={id}
-                        href={`#${id}`}
-                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold ring-1"
-                        style={{
-                          backgroundColor: `${NAVY}04`,
-                          color: NAVY,
-                          borderColor: `${NAVY}18`,
-                        }}
-                      >
-                        <Icon className="h-4 w-4" style={{ color: ORANGE }} />
-                        {label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-
-                {/* desktop grid */}
-                <div className="mt-4 hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-                  {quickNav.map(({ id, label, Icon }) => (
-                    <a
-                      key={id}
-                      href={`#${id}`}
-                      className="inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold ring-1 transition hover:opacity-95"
-                      style={{
-                        backgroundColor: `${NAVY}04`,
-                        color: NAVY,
-                        borderColor: `${NAVY}18`,
-                      }}
-                    >
-                      <Icon className="h-4 w-4" style={{ color: ORANGE }} />
-                      {label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* CATÁLOGO */}
-      <section className="py-12 lg:py-18 bg-white">
+      <section className="py-10 lg:py-18 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <h2
                 className="text-3xl lg:text-4xl font-extrabold"
@@ -491,8 +430,8 @@ export default function ServicesPage() {
               >
                 Catálogo de serviços
               </h2>
-              <p className="mt-3 text-lg text-slate-600">
-                Organizado por tipo de trabalho para facilitar o pedido de orçamento.
+              <p className="mt-2 text-base text-slate-600">
+                Organizado por categoria para navegar rápido no mobile.
               </p>
             </div>
 
@@ -509,78 +448,183 @@ export default function ServicesPage() {
             </Link>
           </div>
 
-          <div className="space-y-14">
-            {serviceGroups.map((group) => {
-              const TitleIcon = groupIconById[group.id] ?? ClipboardList;
-              const cta = ctaCopyByGroup[group.id];
+          {/* MOBILE: Accordion por categoria */}
+          <div className="mt-4 lg:hidden">
+            <Accordion type="single" collapsible className="w-full space-y-3">
+              {serviceGroups.map((group) => {
+                const TitleIcon = groupIconById[group.id] ?? ClipboardList;
+                const cta = ctaCopyByGroup[group.id];
 
-              return (
-                <div key={group.id} id={group.id} className="scroll-mt-32">
-                  <div className="mb-6 flex items-start gap-3">
-                    <div
-                      className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl ring-1"
-                      style={{
-                        backgroundColor: `${ORANGE}14`,
-                        borderColor: `${ORANGE}22`,
-                      }}
-                      aria-hidden
+                return (
+                  <div key={group.id} id={group.id} className="scroll-mt-40">
+                    <AccordionItem
+                      value={group.id}
+                      className="rounded-3xl border border-black/10 overflow-hidden"
                     >
-                      {/* ✅ CORREÇÃO DEFINITIVA:
-                          não passamos `style` no ícone (tipado só com className).
-                          a cor vai no wrapper e o ícone herda via currentColor. */}
-                      <div style={{ color: ORANGE }}>
+                      <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                        <div className="flex items-start gap-3 text-left">
+                          <div
+                            className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl ring-1"
+                            style={{
+                              backgroundColor: `${ORANGE}14`,
+                              borderColor: `${ORANGE}22`,
+                              color: ORANGE,
+                            }}
+                            aria-hidden
+                          >
+                            <TitleIcon className="h-5 w-5" />
+                          </div>
+
+                          <div className="min-w-0">
+                            <p
+                              className="text-base font-extrabold"
+                              style={{ color: NAVY }}
+                            >
+                              {group.title}
+                            </p>
+                            <p className="mt-1 text-sm text-slate-600 line-clamp-2">
+                              {group.subtitle}
+                            </p>
+                          </div>
+                        </div>
+                      </AccordionTrigger>
+
+                      <AccordionContent className="px-5 pb-5">
+                        <div className="grid grid-cols-1 gap-4">
+                          {group.items.map((service) => {
+                            const isFeatured =
+                              group.featuredSlug === service.slug;
+
+                            return (
+                              <div key={service.slug} className="space-y-2">
+                                <ServiceCard
+                                  name={service.name}
+                                  description={service.shortDesc}
+                                  href={`/servicos/${service.slug}`}
+                                  icon={service.icon}
+                                  featured={!!isFeatured}
+                                />
+
+                                <Link
+                                  href={`/servicos/${service.slug}`}
+                                  className="inline-flex items-center text-sm font-extrabold"
+                                  style={{ color: NAVY }}
+                                >
+                                  Ver detalhes{" "}
+                                  <ArrowUpRight className="ml-1 h-4 w-4" />
+                                </Link>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        <div
+                          className="mt-5 rounded-3xl p-4 ring-1"
+                          style={{
+                            backgroundColor: `${NAVY}04`,
+                            borderColor: `${NAVY}14`,
+                          }}
+                        >
+                          <p
+                            className="text-sm font-extrabold"
+                            style={{ color: NAVY }}
+                          >
+                            {cta?.q ?? "Quer avançar com este tipo de serviço?"}
+                          </p>
+                          <p className="mt-1 text-sm text-slate-600">
+                            Envie local da obra + o que precisa (e fotos, se
+                            tiver).
+                          </p>
+
+                          <Link
+                            href="/contactos#orcamento"
+                            className="mt-3 inline-flex h-11 w-full items-center justify-center rounded-2xl px-5 text-sm font-extrabold shadow-sm transition hover:opacity-95"
+                            style={{ backgroundColor: NAVY, color: "white" }}
+                          >
+                            {cta?.btn ?? "Pedir orçamento"}{" "}
+                            <ArrowUpRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </div>
+                );
+              })}
+            </Accordion>
+          </div>
+
+          {/* DESKTOP: Grid aberto */}
+          <div className="hidden lg:block mt-10">
+            <div className="space-y-14">
+              {serviceGroups.map((group) => {
+                const TitleIcon = groupIconById[group.id] ?? ClipboardList;
+                const cta = ctaCopyByGroup[group.id];
+
+                return (
+                  <div key={group.id} id={group.id} className="scroll-mt-44">
+                    <div className="mb-6 flex items-start gap-3">
+                      <div
+                        className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl ring-1"
+                        style={{
+                          backgroundColor: `${ORANGE}14`,
+                          borderColor: `${ORANGE}22`,
+                          color: ORANGE,
+                        }}
+                        aria-hidden
+                      >
                         <TitleIcon className="h-5 w-5" />
                       </div>
-                    </div>
 
-                    <div className="min-w-0">
-                      <h3
-                        className="text-xl lg:text-2xl font-extrabold"
-                        style={{ color: NAVY }}
-                      >
-                        {group.title}
-                      </h3>
-                      <p className="mt-1 text-sm lg:text-base text-slate-600 max-w-3xl">
-                        {group.subtitle}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                    {group.items.map((service) => {
-                      const isFeatured = group.featuredSlug === service.slug;
-                      return (
-                        <ServiceCard
-                          key={service.slug}
-                          name={service.name}
-                          description={service.shortDesc}
-                          href={`/servicos/${service.slug}`}
-                          icon={service.icon}
-                          featured={!!isFeatured}
-                        />
-                      );
-                    })}
-                  </div>
-
-                  {/* CTA por seção */}
-                  <div className="mt-8">
-                    <div
-                      className="rounded-3xl p-5 sm:p-6 ring-1 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
-                      style={{
-                        backgroundColor: `${NAVY}04`,
-                        borderColor: `${NAVY}14`,
-                      }}
-                    >
                       <div className="min-w-0">
-                        <p className="text-sm font-extrabold" style={{ color: NAVY }}>
-                          {cta?.q ?? "Quer avançar com este tipo de serviço?"}
-                        </p>
-                        <p className="mt-1 text-sm text-slate-600">
-                          Envie local da obra + o que precisa (e fotos, se tiver). Respondemos com um orçamento claro.
+                        <h3
+                          className="text-xl lg:text-2xl font-extrabold"
+                          style={{ color: NAVY }}
+                        >
+                          {group.title}
+                        </h3>
+                        <p className="mt-1 text-sm lg:text-base text-slate-600 max-w-3xl">
+                          {group.subtitle}
                         </p>
                       </div>
+                    </div>
 
-                      <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                      {group.items.map((service) => {
+                        const isFeatured = group.featuredSlug === service.slug;
+                        return (
+                          <ServiceCard
+                            key={service.slug}
+                            name={service.name}
+                            description={service.shortDesc}
+                            href={`/servicos/${service.slug}`}
+                            icon={service.icon}
+                            featured={!!isFeatured}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    <div className="mt-8">
+                      <div
+                        className="rounded-3xl p-6 ring-1 flex items-center justify-between"
+                        style={{
+                          backgroundColor: `${NAVY}04`,
+                          borderColor: `${NAVY}14`,
+                        }}
+                      >
+                        <div className="min-w-0">
+                          <p
+                            className="text-sm font-extrabold"
+                            style={{ color: NAVY }}
+                          >
+                            {cta?.q ?? "Quer avançar com este tipo de serviço?"}
+                          </p>
+                          <p className="mt-1 text-sm text-slate-600">
+                            Envie local da obra + o que precisa (e fotos, se
+                            tiver).
+                          </p>
+                        </div>
+
                         <Link
                           href="/contactos#orcamento"
                           className="inline-flex h-11 items-center justify-center rounded-2xl px-5 text-sm font-extrabold shadow-sm transition hover:opacity-95"
@@ -589,31 +633,16 @@ export default function ServicesPage() {
                           {cta?.btn ?? "Pedir orçamento"}{" "}
                           <ArrowUpRight className="ml-2 h-4 w-4" />
                         </Link>
-
-                        <a
-                          href={waHref}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex h-11 items-center justify-center rounded-2xl px-5 text-sm font-extrabold ring-1 transition hover:bg-white"
-                          style={{
-                            borderColor: `${NAVY}22`,
-                            color: NAVY,
-                            backgroundColor: "white",
-                          }}
-                        >
-                          <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
-                          WhatsApp
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
           {/* CTA FINAL */}
-          <div id="cta-final" className="scroll-mt-28 mt-16">
+          <div id="cta-final" className="scroll-mt-44 mt-14">
             <div
               className="rounded-3xl p-6 sm:p-10 ring-1 text-center"
               style={{ borderColor: `${NAVY}14`, backgroundColor: `${NAVY}04` }}
@@ -626,7 +655,8 @@ export default function ServicesPage() {
               </h2>
 
               <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto">
-                Solicite um orçamento sem compromisso. A nossa equipa técnica analisa as suas necessidades e responde com clareza.
+                Solicite um orçamento sem compromisso. A nossa equipa técnica
+                analisa as suas necessidades e responde com clareza.
               </p>
 
               <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -649,7 +679,10 @@ export default function ServicesPage() {
                     backgroundColor: "white",
                   }}
                 >
-                  <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
+                  <MessageCircle
+                    className="mr-2 h-4 w-4"
+                    style={{ color: ORANGE }}
+                  />
                   Falar no WhatsApp
                 </a>
               </div>

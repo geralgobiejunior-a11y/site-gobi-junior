@@ -59,48 +59,42 @@ export function ServicesCarousel({
     if (!el) return;
 
     const step = getStepPx();
-    // inicio do bloco B
-    const middleStartIndex = baseLen; // porque A=0..baseLen-1, B=baseLen..2*baseLen-1
+    const middleStartIndex = baseLen; // bloco B começa aqui
     const target = middleStartIndex * step;
     el.scrollTo({ left: target, behavior });
   }
 
   // teleport se chegar perto dos extremos
-function normalizeInfiniteScroll() {
-  const el = scrollerRef.current;
-  if (!el) return;
+  function normalizeInfiniteScroll() {
+    const el = scrollerRef.current;
+    if (!el) return;
 
-  const step = getStepPx();
-  const blockSize = baseLen * step;
+    const step = getStepPx();
+    const blockSize = baseLen * step;
 
-  // B começa em blockSize e termina em 2*blockSize
-  const B_START = blockSize;
-  const B_END = blockSize * 2;
+    const B_START = blockSize;
+    const B_END = blockSize * 2;
 
-  // margem para não brigar com snap (2 cards de folga)
-  const MARGIN = step * 2;
+    const MARGIN = step * 2;
 
-  const x = el.scrollLeft;
+    const x = el.scrollLeft;
 
-  // Se entrou no A (antes do B), manda pra B mantendo a mesma “imagem”
-  if (x < B_START - MARGIN) {
-    const prev = el.style.scrollBehavior;
-    el.style.scrollBehavior = "auto";
-    el.scrollLeft = x + blockSize;
-    el.style.scrollBehavior = prev;
-    return;
+    if (x < B_START - MARGIN) {
+      const prev = el.style.scrollBehavior;
+      el.style.scrollBehavior = "auto";
+      el.scrollLeft = x + blockSize;
+      el.style.scrollBehavior = prev;
+      return;
+    }
+
+    if (x > B_END + MARGIN) {
+      const prev = el.style.scrollBehavior;
+      el.style.scrollBehavior = "auto";
+      el.scrollLeft = x - blockSize;
+      el.style.scrollBehavior = prev;
+      return;
+    }
   }
-
-  // Se entrou no C (depois do B), manda pra B mantendo a mesma “imagem”
-  if (x > B_END + MARGIN) {
-    const prev = el.style.scrollBehavior;
-    el.style.scrollBehavior = "auto";
-    el.scrollLeft = x - blockSize;
-    el.style.scrollBehavior = prev;
-    return;
-  }
-}
-
 
   // atualiza dots (índice real)
   function updateActiveDot() {
@@ -126,7 +120,6 @@ function normalizeInfiniteScroll() {
     if (!el) return;
 
     const step = getStepPx();
-    // sempre navega dentro do bloco do meio (B)
     const middleStartIndex = baseLen;
     const target = (middleStartIndex + realIndex) * step;
 
@@ -137,6 +130,7 @@ function normalizeInfiniteScroll() {
     const el = scrollerRef.current;
     if (!el) return;
 
+    // touch nativo no mobile: deixa o browser fazer o swipe
     if (e.pointerType === "touch") return;
 
     drag.current.active = true;
@@ -165,14 +159,11 @@ function normalizeInfiniteScroll() {
     drag.current.pointerId = -1;
     el.classList.remove("dragging");
 
-    // normaliza e atualiza dot
     normalizeInfiniteScroll();
     updateActiveDot();
   }
 
   useEffect(() => {
-    // start no meio quando montar
-    // (auto para não dar “pulo animado”)
     snapToMiddle("auto");
     updateActiveDot();
 
@@ -187,7 +178,6 @@ function normalizeInfiniteScroll() {
     el.addEventListener("scroll", onScroll, { passive: true });
 
     const ro = new ResizeObserver(() => {
-      // se mudar largura do card, reposiciona no meio mantendo o dot
       snapToMiddle("auto");
       scrollToRealIndex(activeRealIndex);
     });
@@ -231,9 +221,9 @@ function normalizeInfiniteScroll() {
         <p className="mt-3 text-lg text-slate-600">{subtitle}</p>
       </div>
 
-      {/* full-bleed sem overflow do body */}
+      {/* full-bleed */}
       <div className="relative mt-12">
-        <div className="relative w-[100vw] mx-[calc(50%-50vw)] overflow-x-clip">
+        <div className="relative w-[100vw] mx-[calc(50%-50vw)] overflow-x-hidden">
           {/* fades */}
           <div
             aria-hidden
@@ -250,7 +240,7 @@ function normalizeInfiniteScroll() {
             }}
           />
 
-          {/* setas (sempre disponíveis porque é infinito) */}
+          {/* setas */}
           <button
             type="button"
             onClick={() => scrollByAmount("left")}
@@ -273,16 +263,18 @@ function normalizeInfiniteScroll() {
             <ChevronRight className="h-5 w-5" style={{ color: NAVY }} />
           </button>
 
-          {/* trilho infinito */}
+          {/* trilho */}
           <div className="px-4 sm:px-6 lg:px-10">
             <div
               ref={scrollerRef}
-              className="no-scrollbar flex gap-6 overflow-x-scroll overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2 cursor-grab select-none"
+              className="no-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory pb-2
+                         cursor-grab select-none touch-pan-x overscroll-x-contain"
               style={{
                 WebkitOverflowScrolling: "touch",
                 scrollPaddingLeft: 24,
                 scrollPaddingRight: 24,
-                touchAction: "pan-y",
+                // ESSENCIAL: liberar gesto horizontal no mobile
+                touchAction: "pan-x",
               }}
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
@@ -299,7 +291,6 @@ function normalizeInfiniteScroll() {
                   <ServiceCard
                     name={service.name}
                     description={service.shortDesc}
-                    href={`/servicos/${service.slug}`}
                     icon={service.icon}
                     featured={service.category === "principal"}
                   />
@@ -309,7 +300,7 @@ function normalizeInfiniteScroll() {
               <div className="shrink-0 w-6 lg:w-12" />
             </div>
 
-            {/* dots (agora em cima do índice real) */}
+            {/* dots */}
             <div className="mt-7 flex items-center justify-center gap-2">
               {services.slice(0, Math.min(services.length, 8)).map((_, i) => {
                 const active = i === activeRealIndex;

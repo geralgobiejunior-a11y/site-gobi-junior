@@ -30,7 +30,7 @@ export function ProcessStepsSection({
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
-  // Progress bar (linha) com scroll — sutil
+  // Progress bar (linha) com scroll — sutil (desktop)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "end 0.35"],
@@ -100,10 +100,90 @@ export function ProcessStepsSection({
           <p className="mt-3 text-lg text-slate-600">{subtitle}</p>
         </div>
 
-        {/* TIMELINE */}
-        <div className="mt-12">
+        {/* MOBILE (nova versão premium / leve) */}
+        <div className="mt-10 lg:hidden">
+          <Card className="border-white bg-white/80 shadow-sm ring-1 ring-slate-200/70 backdrop-blur-sm">
+            <div
+              className="h-1 w-full"
+              style={{ background: `linear-gradient(90deg, ${ORANGE} 0%, ${NAVY} 100%)` }}
+            />
+            <CardContent className="p-6">
+              {/* Linha vertical */}
+              <div className="relative">
+                {/* trilho */}
+                <div
+                  aria-hidden
+                  className="absolute left-[18px] top-2 bottom-2 w-px rounded-full"
+                  style={{ backgroundColor: "rgba(15,23,42,0.14)" }}
+                />
+                <motion.div
+                  aria-hidden
+                  className="absolute left-[18px] top-2 w-px rounded-full"
+                  style={{
+                    background: `linear-gradient(180deg, ${ORANGE} 0%, ${NAVY} 100%)`,
+                    transformOrigin: "top",
+                    scaleY: lineScale,
+                    height: "calc(100% - 16px)",
+                  }}
+                />
+
+                <div className="space-y-6">
+                  {items.map((step) => (
+                    <motion.div
+                      key={step.number}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={inView ? { opacity: 1, y: 0 } : undefined}
+                      transition={{ duration: 0.45, delay: 0.05 * step.idx, ease: "easeOut" }}
+                      className="relative pl-10"
+                    >
+                      {/* bullet */}
+                      <div className="absolute left-0 top-1.5">
+                        <div
+                          className="flex h-9 w-9 items-center justify-center rounded-2xl ring-1 shadow-sm"
+                          style={{ backgroundColor: "#fff", borderColor: `${NAVY}1f` }}
+                        >
+                          <div
+                            className="flex h-7 w-7 items-center justify-center rounded-xl text-[11px] font-extrabold"
+                            style={{ backgroundColor: `${NAVY}10`, color: NAVY }}
+                          >
+                            {step.number}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* conteúdo compacto */}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <h3 className="text-sm font-extrabold leading-snug" style={{ color: NAVY }}>
+                            {step.title}
+                          </h3>
+                          <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                            {step.description}
+                          </p>
+                        </div>
+
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" style={{ color: ORANGE }} />
+                      </div>
+
+                      {/* divisor sutil */}
+                      {step.idx !== items.length - 1 && (
+                        <div
+                          className="mt-5 h-px w-full"
+                          style={{ backgroundColor: "rgba(15,23,42,0.08)" }}
+                        />
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* DESKTOP (mantém como estava) */}
+        <div className="mt-12 hidden lg:block">
           {/* Linha conectora (desktop) */}
-          <div className="relative hidden lg:block">
+          <div className="relative">
             <div className="absolute left-0 right-0 top-6 h-px rounded-full bg-slate-200" />
             <motion.div
               className="absolute left-0 top-6 h-px rounded-full"
@@ -115,7 +195,7 @@ export function ProcessStepsSection({
             />
           </div>
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-5">
+          <div className="grid grid-cols-5 gap-5">
             {items.map((step) => (
               <motion.div
                 key={step.number}
@@ -125,7 +205,7 @@ export function ProcessStepsSection({
                 className="relative"
               >
                 {/* Nodo (desktop) */}
-                <div className="hidden lg:flex items-center justify-center">
+                <div className="flex items-center justify-center">
                   <div
                     className="relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl ring-1 shadow-sm"
                     style={{
@@ -139,45 +219,22 @@ export function ProcessStepsSection({
                     >
                       {step.number}
                     </div>
-
-                    {/* brilho laranja */}
-                    <div
-                      className="pointer-events-none absolute -inset-1 rounded-2xl blur-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                      style={{ backgroundColor: `${ORANGE}18` }}
-                    />
                   </div>
                 </div>
 
-                <Card
-                  className="group mt-0 border-white bg-white/80 shadow-sm ring-1 ring-slate-200/70 backdrop-blur-sm transition-all hover:-translate-y-[2px] hover:shadow-xl"
-                >
-                  {/* detalhe de marca */}
+                <Card className="mt-0 border-white bg-white/80 shadow-sm ring-1 ring-slate-200/70 backdrop-blur-sm transition-all hover:-translate-y-[2px] hover:shadow-xl">
                   <div
                     className="h-1 w-full"
                     style={{ background: `linear-gradient(90deg, ${ORANGE} 0%, ${NAVY} 100%)` }}
                   />
 
                   <CardContent className="p-6">
-                    {/* topo (mobile) */}
-                    <div className="mb-4 flex items-center justify-between lg:hidden">
-                      <div
-                        className="inline-flex items-center rounded-full px-3 py-1 text-xs font-extrabold ring-1"
-                        style={{ backgroundColor: `${NAVY}10`, color: NAVY, borderColor: `${NAVY}1f` }}
-                      >
-                        {step.number}
-                      </div>
-                      <CheckCircle2 className="h-5 w-5" style={{ color: ORANGE }} />
-                    </div>
-
                     <h3 className="text-base font-extrabold leading-snug" style={{ color: NAVY }}>
                       {step.title}
                     </h3>
 
-                    <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                      {step.description}
-                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.description}</p>
 
-                    {/* micro-efeito */}
                     <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-slate-500">
                       <span
                         className="inline-flex h-1.5 w-1.5 rounded-full"

@@ -33,7 +33,7 @@ export function HeroRotating({
   images = ['/hero/1.webp', '/hero/2.webp', '/hero/3.webp'],
   intervalMs = 9000,
   // pode subir pra 0.55 se quiser mais contraste geral
-  darkOverlay = 0.50,
+  darkOverlay = 0.5,
   // mais baixo pra não “sujar” o texto
   navyWash = 0.22,
 }: HeroRotatingProps) {
@@ -72,19 +72,26 @@ export function HeroRotating({
     .replace(/\s/g, '')}?text=${encodeURIComponent(brand.contact.whatsappMessage)}`;
 
   const navyA = hexToRgba(NAVY, navyWash);
-  const navyB = hexToRgba(NAVY, Math.max(0, navyWash - 0.10));
+  const navyB = hexToRgba(NAVY, Math.max(0, navyWash - 0.1));
 
   // overlay gradiente: mais escuro onde está o texto (esquerda)
   const left = Math.min(0.86, darkOverlay + 0.22);
-  const mid = Math.min(0.70, darkOverlay + 0.10);
+  const mid = Math.min(0.7, darkOverlay + 0.1);
   const right = Math.max(0.18, darkOverlay - 0.18);
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden min-h-[560px] sm:min-h-[640px]">
       {/* BACKGROUND (crossfade real) */}
       <div className="absolute inset-0">
         {prevSrc && (
-          <Image src={prevSrc} alt="" fill sizes="100vw" className="object-cover" priority />
+          <Image
+            src={prevSrc}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
         )}
 
         <Image
@@ -144,27 +151,23 @@ export function HeroRotating({
       </div>
 
       {/* CONTEÚDO */}
-      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      {/* pt maior por causa do header fixo (h-20) */}
+      <div className="relative mx-auto max-w-7xl px-4 pt-28 pb-14 sm:px-6 sm:pt-32 sm:pb-16 lg:px-8 lg:pt-36 lg:pb-24">
         <div className="max-w-3xl">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white/90 ring-1 ring-white/15 backdrop-blur">
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: ORANGE }} />
-            {brand.tagline}
-          </div>
-
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-[0_3px_18px_rgba(0,0,0,0.55)]">
+          <h1 className="max-w-[19ch] text-3xl font-extrabold leading-[1.08] tracking-tight text-white sm:max-w-none sm:text-5xl lg:text-6xl drop-shadow-[0_3px_18px_rgba(0,0,0,0.55)]">
             Soluções Técnicas na Construção, com Rigor e Cumprimento
           </h1>
 
-          {/* ✅ sem retângulo, só cor + sombra */}
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.70)]">
-            Instalações elétricas e especialidades de acabamento para obras residenciais e comerciais.
+          <p className="mt-4 max-w-[42ch] text-base leading-relaxed text-white/90 sm:mt-6 sm:max-w-2xl sm:text-xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.70)]">
+            Instalações elétricas e especialidades de acabamento para obras
+            residenciais e comerciais.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center">
             <Button
               asChild
               size="lg"
-              className="h-12 px-6 font-semibold shadow-lg"
+              className="h-11 w-full px-5 font-semibold shadow-lg sm:h-12 sm:w-auto sm:px-6"
               style={{ backgroundColor: ORANGE }}
             >
               <Link href="/contactos#orcamento">
@@ -176,7 +179,7 @@ export function HeroRotating({
               asChild
               size="lg"
               variant="outline"
-              className="h-12 border-white/25 bg-white text-slate-900 hover:bg-white/95"
+              className="h-11 w-full border-white/25 bg-white text-slate-900 hover:bg-white/95 sm:h-12 sm:w-auto"
             >
               <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 Falar no WhatsApp

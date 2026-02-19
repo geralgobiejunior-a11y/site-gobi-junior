@@ -27,8 +27,8 @@ export const brand = {
 
   contact: {
     phone: '+351 912 345 678',
-    email: 'geral@gobieandjunior.pt',
-    whatsapp: '+351912345678',
+    email: 'geral@gobijunior.pt',
+    whatsapp: '+351 936 178 415',
     whatsappMessage: 'Olá! Gostaria de solicitar um orçamento.',
     address: 'Lisboa e Arredores',
     schedule: 'Segunda a Sexta: 08:00 - 18:00',

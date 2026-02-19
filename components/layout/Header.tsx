@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Menu, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,9 @@ export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -28,98 +32,165 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
-      }`}
-    >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
-          {/* LOGO (somente imagem) */}
-          <Link href="/" className="flex items-center">
-            <img
-              src="/design_sem_nome_(2).png"
-              alt="Gobi & Júnior"
-              className="h-14 w-auto"
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(href + '/');
+
+  // lock scroll + ESC
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [mobileMenuOpen]);
+
+  const mobileDrawer =
+    mounted && mobileMenuOpen
+      ? createPortal(
+          <div className="fixed inset-0 z-[9999] lg:hidden">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/55 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
             />
-          </Link>
 
-          {/* Menu desktop */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-8">
-            {navigation.map((item) => {
-              const isActive =
-                pathname === item.href || pathname.startsWith(item.href + '/');
+            {/* Painel */}
+            <div className="absolute right-0 top-0 z-[10000] h-full w-[86%] max-w-sm bg-white shadow-2xl overflow-y-auto">
+              <div className="flex items-center justify-between border-b border-black/10 px-5 py-4">
+                <img
+                  src="/design_sem_nome_(2).png"
+                  alt="Gobi & Júnior"
+                  className="h-10 w-auto"
+                />
 
-              return (
+                <button
+                  type="button"
+                  aria-label="Fechar menu"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 bg-white"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="px-5 py-4">
+                <div className="space-y-1">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition ${
+                        isActive(item.href)
+                          ? 'bg-[#0B4F8A]/10 text-[#0B4F8A]'
+                          : 'text-gray-800 hover:bg-black/5'
+                      }`}
+                    >
+                      <span>{item.name}</span>
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          isActive(item.href) ? 'bg-[#0B4F8A]' : 'bg-black/15'
+                        }`}
+                      />
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="mt-6 space-y-3">
+                  <Button
+                    asChild
+                    className="w-full h-12 rounded-xl text-[15px] font-semibold"
+                    style={{ backgroundColor: brand.colors.orange }}
+                  >
+                    <Link
+                      href="/contactos#orcamento"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Pedir Orçamento
+                    </Link>
+                  </Button>
+
+                  <Link
+                    href="/contactos"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex h-12 w-full items-center justify-center rounded-xl border border-black/15 bg-white text-[15px] font-semibold text-gray-800"
+                  >
+                    Contactos
+                  </Link>
+
+                  <p className="pt-1 text-xs text-black/50">
+                    Resposta rápida em Lisboa e arredores.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      : null;
+
+  return (
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
+        }`}
+      >
+        <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-20 items-center justify-between">
+            <Link href="/" className="flex items-center">
+              <img
+                src="/design_sem_nome_(2).png"
+                alt="Gobi & Júnior"
+                className="h-14 w-auto"
+              />
+            </Link>
+
+            <div className="hidden lg:flex lg:items-center lg:space-x-8">
+              {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={`text-sm font-medium transition-colors ${
-                    isActive
+                    isActive(item.href)
                       ? 'text-[#0B4F8A]'
                       : 'text-gray-700 hover:text-[#0B4F8A]'
                   }`}
                 >
                   {item.name}
                 </Link>
-              );
-            })}
-          </div>
+              ))}
+            </div>
 
-          {/* CTA desktop */}
-          <div className="hidden lg:flex lg:items-center">
-            <Button asChild style={{ backgroundColor: brand.colors.orange }}>
-              <Link href="/contactos#orcamento">Pedir Orçamento</Link>
-            </Button>
-          </div>
-
-          {/* Botão menu mobile */}
-          <button
-            type="button"
-            className="lg:hidden rounded-md p-2 text-gray-700"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-
-        {/* Menu mobile */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-200">
-            <div className="flex flex-col space-y-4">
-              {navigation.map((item) => {
-                const isActive =
-                  pathname === item.href || pathname.startsWith(item.href + '/');
-
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`text-base font-medium ${
-                      isActive ? 'text-[#0B4F8A]' : 'text-gray-700'
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-
-              <Button
-                asChild
-                className="w-full"
-                style={{ backgroundColor: brand.colors.orange }}
-              >
-                <Link href="/contactos#orcamento" onClick={() => setMobileMenuOpen(false)}>
-                  Pedir Orçamento
-                </Link>
+            <div className="hidden lg:flex lg:items-center">
+              <Button asChild style={{ backgroundColor: brand.colors.orange }}>
+                <Link href="/contactos#orcamento">Pedir Orçamento</Link>
               </Button>
             </div>
+
+            <button
+              type="button"
+              className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 bg-white text-gray-700"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Abrir menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
-        )}
-      </nav>
-    </header>
+        </nav>
+      </header>
+
+      {mobileDrawer}
+    </>
   );
 }
