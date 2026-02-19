@@ -183,15 +183,13 @@ export default function ServicesPage() {
         {
           slug: "pintura-interior",
           name: "Pintura Interior",
-          shortDesc:
-            "Preparação (massa, lixagem, primário) e acabamento uniforme.",
+          shortDesc: "Preparação (massa, lixagem, primário) e acabamento uniforme.",
           icon: "Paintbrush",
         },
         {
           slug: "pintura-exterior",
           name: "Pintura Exterior",
-          shortDesc:
-            "Tratamento e pintura com foco em durabilidade e resistência.",
+          shortDesc: "Tratamento e pintura com foco em durabilidade e resistência.",
           icon: "Paintbrush",
         },
       ],
@@ -259,8 +257,7 @@ export default function ServicesPage() {
         {
           slug: "isolamento-termico",
           name: "Isolamento Térmico",
-          shortDesc:
-            "Reduz perdas de calor e melhora a eficiência do espaço.",
+          shortDesc: "Reduz perdas de calor e melhora a eficiência do espaço.",
           icon: "Thermometer",
         },
         {
@@ -294,34 +291,13 @@ export default function ServicesPage() {
     };
 
   const ctaCopyByGroup: Record<string, { q: string; btn: string }> = {
-    eletrica: {
-      q: "Precisa de instalação elétrica, correção ou manutenção?",
-      btn: "Pedir orçamento elétrico",
-    },
-    hidraulica: {
-      q: "Fugas, redes de água/esgotos ou reparações?",
-      btn: "Pedir orçamento hidráulico",
-    },
-    pladur: {
-      q: "Divisórias, revestimentos ou tetos falsos?",
-      btn: "Pedir orçamento de pladur",
-    },
-    pintura: {
-      q: "Pintura interior/exterior com preparação correta?",
-      btn: "Pedir orçamento de pintura",
-    },
-    manutencao: {
-      q: "Uma intervenção rápida para resolver e deixar pronto?",
-      btn: "Falar sobre manutenção",
-    },
-    pisos: {
-      q: "Colocação de piso ou preparação de base?",
-      btn: "Pedir orçamento de pisos",
-    },
-    isolamentos: {
-      q: "Conforto térmico ou acústico no espaço?",
-      btn: "Pedir orçamento de isolamento",
-    },
+    eletrica: { q: "Precisa de instalação elétrica, correção ou manutenção?", btn: "Pedir orçamento elétrico" },
+    hidraulica: { q: "Fugas, redes de água/esgotos ou reparações?", btn: "Pedir orçamento hidráulico" },
+    pladur: { q: "Divisórias, revestimentos ou tetos falsos?", btn: "Pedir orçamento de pladur" },
+    pintura: { q: "Pintura interior/exterior com preparação correta?", btn: "Pedir orçamento de pintura" },
+    manutencao: { q: "Uma intervenção rápida para resolver e deixar pronto?", btn: "Falar sobre manutenção" },
+    pisos: { q: "Colocação de piso ou preparação de base?", btn: "Pedir orçamento de pisos" },
+    isolamentos: { q: "Conforto térmico ou acústico no espaço?", btn: "Pedir orçamento de isolamento" },
   };
 
   return (
@@ -404,10 +380,7 @@ export default function ServicesPage() {
                   backgroundColor: "white",
                 }}
               >
-                <MessageCircle
-                  className="mr-2 h-4 w-4"
-                  style={{ color: ORANGE }}
-                />
+                <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
                 WhatsApp
               </a>
 
@@ -424,10 +397,7 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <h2
-                className="text-3xl lg:text-4xl font-extrabold"
-                style={{ color: NAVY }}
-              >
+              <h2 className="text-3xl lg:text-4xl font-extrabold" style={{ color: NAVY }}>
                 Catálogo de serviços
               </h2>
               <p className="mt-2 text-base text-slate-600">
@@ -476,10 +446,7 @@ export default function ServicesPage() {
                           </div>
 
                           <div className="min-w-0">
-                            <p
-                              className="text-base font-extrabold"
-                              style={{ color: NAVY }}
-                            >
+                            <p className="text-base font-extrabold" style={{ color: NAVY }}>
                               {group.title}
                             </p>
                             <p className="mt-1 text-sm text-slate-600 line-clamp-2">
@@ -492,27 +459,16 @@ export default function ServicesPage() {
                       <AccordionContent className="px-5 pb-5">
                         <div className="grid grid-cols-1 gap-4">
                           {group.items.map((service) => {
-                            const isFeatured =
-                              group.featuredSlug === service.slug;
+                            const isFeatured = group.featuredSlug === service.slug;
 
                             return (
-                              <div key={service.slug} className="space-y-2">
-                                <ServiceCard
-  name={service.name}
-  description={service.shortDesc}
-  icon={service.icon}
-  featured={!!isFeatured}
-/>
-
-
-                                <Link
-                                  className="inline-flex items-center text-sm font-extrabold"
-                                  style={{ color: NAVY }}
-                                >
-                                  Ver detalhes{" "}
-                                  <ArrowUpRight className="ml-1 h-4 w-4" />
-                                </Link>
-                              </div>
+                              <ServiceCard
+                                key={service.slug}
+                                name={service.name}
+                                description={service.shortDesc}
+                                icon={service.icon}
+                                featured={!!isFeatured}
+                              />
                             );
                           })}
                         </div>
@@ -524,15 +480,11 @@ export default function ServicesPage() {
                             borderColor: `${NAVY}14`,
                           }}
                         >
-                          <p
-                            className="text-sm font-extrabold"
-                            style={{ color: NAVY }}
-                          >
+                          <p className="text-sm font-extrabold" style={{ color: NAVY }}>
                             {cta?.q ?? "Quer avançar com este tipo de serviço?"}
                           </p>
                           <p className="mt-1 text-sm text-slate-600">
-                            Envie local da obra + o que precisa (e fotos, se
-                            tiver).
+                            Envie local da obra + o que precisa (e fotos, se tiver).
                           </p>
 
                           <Link
@@ -575,10 +527,7 @@ export default function ServicesPage() {
                       </div>
 
                       <div className="min-w-0">
-                        <h3
-                          className="text-xl lg:text-2xl font-extrabold"
-                          style={{ color: NAVY }}
-                        >
+                        <h3 className="text-xl lg:text-2xl font-extrabold" style={{ color: NAVY }}>
                           {group.title}
                         </h3>
                         <p className="mt-1 text-sm lg:text-base text-slate-600 max-w-3xl">
@@ -590,12 +539,12 @@ export default function ServicesPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                       {group.items.map((service) => {
                         const isFeatured = group.featuredSlug === service.slug;
+
                         return (
                           <ServiceCard
                             key={service.slug}
                             name={service.name}
                             description={service.shortDesc}
-                           
                             icon={service.icon}
                             featured={!!isFeatured}
                           />
@@ -612,15 +561,11 @@ export default function ServicesPage() {
                         }}
                       >
                         <div className="min-w-0">
-                          <p
-                            className="text-sm font-extrabold"
-                            style={{ color: NAVY }}
-                          >
+                          <p className="text-sm font-extrabold" style={{ color: NAVY }}>
                             {cta?.q ?? "Quer avançar com este tipo de serviço?"}
                           </p>
                           <p className="mt-1 text-sm text-slate-600">
-                            Envie local da obra + o que precisa (e fotos, se
-                            tiver).
+                            Envie local da obra + o que precisa (e fotos, se tiver).
                           </p>
                         </div>
 
@@ -646,16 +591,13 @@ export default function ServicesPage() {
               className="rounded-3xl p-6 sm:p-10 ring-1 text-center"
               style={{ borderColor: `${NAVY}14`, backgroundColor: `${NAVY}04` }}
             >
-              <h2
-                className="text-2xl sm:text-4xl font-extrabold"
-                style={{ color: NAVY }}
-              >
+              <h2 className="text-2xl sm:text-4xl font-extrabold" style={{ color: NAVY }}>
                 Pronto para começar o seu projeto?
               </h2>
 
               <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto">
-                Solicite um orçamento sem compromisso. A nossa equipa técnica
-                analisa as suas necessidades e responde com clareza.
+                Solicite um orçamento sem compromisso. A nossa equipa técnica analisa
+                as suas necessidades e responde com clareza.
               </p>
 
               <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -678,10 +620,7 @@ export default function ServicesPage() {
                     backgroundColor: "white",
                   }}
                 >
-                  <MessageCircle
-                    className="mr-2 h-4 w-4"
-                    style={{ color: ORANGE }}
-                  />
+                  <MessageCircle className="mr-2 h-4 w-4" style={{ color: ORANGE }} />
                   Falar no WhatsApp
                 </a>
               </div>
