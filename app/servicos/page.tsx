@@ -498,12 +498,12 @@ export default function ServicesPage() {
                             return (
                               <div key={service.slug} className="space-y-2">
                                 <ServiceCard
-                                  name={service.name}
-                                  description={service.shortDesc}
-                                  href={`/servicos/${service.slug}`}
-                                  icon={service.icon}
-                                  featured={!!isFeatured}
-                                />
+  name={service.name}
+  description={service.shortDesc}
+  icon={service.icon}
+  featured={!!isFeatured}
+/>
+
 
                                 <Link
                                   href={`/servicos/${service.slug}`}
